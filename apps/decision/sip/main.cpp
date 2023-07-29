@@ -689,7 +689,9 @@ int hpx_main(hpx::program_options::variables_map & opts) {
       sol = YewPar::Skeletons::DepthBounded<GenNode<NWORDS>,
                                            YewPar::Skeletons::API::Decision,
                                            YewPar::Skeletons::API::DepthBoundedPoolPolicy<
-                                             Workstealing::Policies::DepthPoolPolicy>,
+                                             //Workstealing::Policies::DepthPoolPolicy
+											Workstealing::Policies::PerformancePolicy
+    	>,
                                            YewPar::Skeletons::API::MoreVerbose>
           ::search(m, root, searchParameters);
     }

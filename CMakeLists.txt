@@ -10,6 +10,9 @@ set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -march=native")
 set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_PREFIX}/lib")
 
+#enable some counters
+#set(HPX_WITH_THREAD_IDLE_RATES ON CACHE BOOL "Enable thread idle rates")
+
 # Variables to allow toggling of example apps
 set(YEWPAR_LIBRARY_ONLY "OFF" CACHE BOOL "Build YewPar without any applications")
 set(YEWPAR_BUILD_DNC_APPS "OFF" CACHE BOOL "Build Divide and Conquer apps for YewPar")

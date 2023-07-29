@@ -6,6 +6,7 @@
 #include <hpx/modules/actions_base.hpp>
 #include <hpx/synchronization/mutex.hpp>
 #include <hpx/synchronization/condition_variable.hpp>
+#include <hpx/iostream.hpp>
 
 #include "policies/Policy.hpp"
 

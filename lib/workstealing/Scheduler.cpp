@@ -3,6 +3,7 @@
 
 #include <hpx/execution.hpp>
 
+
 namespace Workstealing { namespace Scheduler {
 
 void scheduler(hpx::function<void(), false> initialTask) {
@@ -48,6 +49,10 @@ void scheduler(hpx::function<void(), false> initialTask) {
 }
 
 void stopSchedulers() {
+
+    local_policy->stopPerformanceMonitor();
+    hpx::cout << "stopSchedulers:" << hpx::get_locality_name() << std::endl;
+
   running.store(false);
   {
     // Block until all schedulers have finished
@@ -59,6 +64,10 @@ void stopSchedulers() {
 }
 
 void startSchedulers(unsigned n) {
+
+    local_policy->startPerformanceMonitor();
+    hpx::cout << "startSchedulers:" << hpx::get_locality_name() << std::endl;
+
   hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
                                         hpx::threads::thread_stacksize::huge);
 

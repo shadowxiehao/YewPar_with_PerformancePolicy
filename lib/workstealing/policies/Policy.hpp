@@ -7,6 +7,10 @@ class Policy {
  public:
   // Scheduler hook point
   virtual hpx::function<void(), false> getWork() = 0;
+
+  virtual void initPerformanceMonitor() {}
+  virtual void startPerformanceMonitor() {}
+  virtual void stopPerformanceMonitor() {}
 };
 
 #endif

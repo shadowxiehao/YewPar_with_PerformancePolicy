@@ -12,8 +12,12 @@ add_hpx_library(YewPar
   workstealing/policies/Workpool.cpp
   workstealing/policies/PriorityOrdered.hpp
   workstealing/policies/PriorityOrdered.cpp
-  workstealing/policies/DepthPoolPolicy.hpp
-  workstealing/policies/DepthPoolPolicy.cpp
+#  workstealing/policies/DepthPoolPolicy.hpp
+#  workstealing/policies/DepthPoolPolicy.cpp
+  workstealing/policies/PerformancePolicy.hpp
+  workstealing/policies/PerformancePolicy.cpp
+  workstealing/policies/PerformanceMonitor.hpp
+  workstealing/policies/PerformanceMonitor.cpp
   util/util.hpp
   util/util.cpp
 

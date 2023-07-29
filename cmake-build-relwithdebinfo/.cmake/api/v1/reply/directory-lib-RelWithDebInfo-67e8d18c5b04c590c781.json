@@ -1,0 +1,61 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"hpx_setup_target",
+			"add_hpx_library"
+		],
+		"files" : 
+		[
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_SetupTarget.cmake",
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_AddLibrary.cmake",
+			"lib/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 310,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 222,
+				"parent" : 2
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "lib",
+			"paths" : 
+			[
+				"lib/libhpx_YewPar.so"
+			],
+			"targetId" : "YewPar::@306ed2d68c6501e8728f",
+			"targetIndex" : 7,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "lib",
+		"source" : "lib"
+	}
+}

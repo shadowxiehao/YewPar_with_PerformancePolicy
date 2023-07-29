@@ -1,0 +1,61 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"hpx_setup_target",
+			"add_hpx_executable"
+		],
+		"files" : 
+		[
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_SetupTarget.cmake",
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_AddExecutable.cmake",
+			"apps/bnb/mcs/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 5,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 253,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 222,
+				"parent" : 2
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"apps/bnb/mcs/mcs-8"
+			],
+			"targetId" : "mcs-8::@db420a04405a8fbccc54",
+			"targetIndex" : 11,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "apps/bnb/mcs",
+		"source" : "apps/bnb/mcs"
+	}
+}

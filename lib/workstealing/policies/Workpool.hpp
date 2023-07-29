@@ -60,6 +60,13 @@ class Workpool : public Policy {
     &Workpool::setDistributedWorkqueues,
     setDistributedWorkqueues_act>::type {};
 
+  void initPerformanceMonitor() override {
+  }
+  void startPerformanceMonitor() override {
+  }
+  void stopPerformanceMonitor() override {
+  }
+
   static void initPolicy() {
     std::vector<hpx::future<void> > futs;
     std::vector<hpx::id_type> workqueues;

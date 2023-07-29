@@ -277,7 +277,9 @@ int hpx_main(hpx::program_options::variables_map & opts) {
                                              YewPar::Skeletons::API::BoundFunction<upperBound_func>,
                                              YewPar::Skeletons::API::PruneLevel,
                                              YewPar::Skeletons::API::DepthBoundedPoolPolicy<
-                                               Workstealing::Policies::DepthPoolPolicy> >
+                                               //Workstealing::Policies::DepthPoolPolicy
+												Workstealing::Policies::PerformancePolicy
+      	>>
             ::search(graph, root, searchParameters);
       }
     }

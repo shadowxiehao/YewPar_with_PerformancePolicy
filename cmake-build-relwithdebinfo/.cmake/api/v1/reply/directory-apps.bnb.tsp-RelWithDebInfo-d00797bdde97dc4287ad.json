@@ -1,0 +1,61 @@
+{
+	"backtraceGraph" : 
+	{
+		"commands" : 
+		[
+			"install",
+			"hpx_setup_target",
+			"add_hpx_executable"
+		],
+		"files" : 
+		[
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_SetupTarget.cmake",
+			"/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX/HPX_AddExecutable.cmake",
+			"apps/bnb/tsp/CMakeLists.txt"
+		],
+		"nodes" : 
+		[
+			{
+				"file" : 2
+			},
+			{
+				"command" : 2,
+				"file" : 2,
+				"line" : 4,
+				"parent" : 0
+			},
+			{
+				"command" : 1,
+				"file" : 1,
+				"line" : 253,
+				"parent" : 1
+			},
+			{
+				"command" : 0,
+				"file" : 0,
+				"line" : 222,
+				"parent" : 2
+			}
+		]
+	},
+	"installers" : 
+	[
+		{
+			"backtrace" : 3,
+			"component" : "Unspecified",
+			"destination" : "bin",
+			"paths" : 
+			[
+				"apps/bnb/tsp/tsp"
+			],
+			"targetId" : "tsp::@7954562641b5c152f3c1",
+			"targetIndex" : 14,
+			"type" : "target"
+		}
+	],
+	"paths" : 
+	{
+		"build" : "apps/bnb/tsp",
+		"source" : "apps/bnb/tsp"
+	}
+}
