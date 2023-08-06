@@ -114,6 +114,7 @@ endif()
 if(NOT CMAKE_INSTALL_LOCAL_ONLY)
   # Include the install script for each subdirectory.
   include("/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/policies/cmake_install.cmake")
+  include("/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/cmake_install.cmake")
 
 endif()
 

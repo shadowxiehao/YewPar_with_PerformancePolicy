@@ -11,12 +11,15 @@
 #include <hpx/runtime_distributed/find_all_localities.hpp>
 
 #include "../DepthPool.hpp"
+//#include "workstealing/channels/SchedulerChannels.hpp"
 
 #include <random>
 #include <vector>
 #include <hpx/iostream.hpp>
 
-namespace Workstealing { namespace Scheduler { extern std::shared_ptr<Policy> local_policy; } }
+namespace Workstealing { namespace Scheduler {
+    extern std::shared_ptr<Policy> local_policy;
+} }
 
 namespace Workstealing {
     namespace Policies {
@@ -55,9 +58,6 @@ namespace Workstealing {
             void registerDistributedDepthPools(std::vector<hpx::id_type> workpools);
 
             static void setDepthPool(hpx::id_type localworkpool) {
-              hpx::cout << "setDepthPool:"
-                        << hpx::naming::get_locality_id_from_id(localworkpool)
-                        << std::endl;
                 Workstealing::Scheduler::local_policy = std::make_shared<PerformancePolicy>(localworkpool);
             }
             struct setDepthPool_act : hpx::actions::make_action<
@@ -93,15 +93,19 @@ namespace Workstealing {
                 performancePolicy->initPerformanceMonitor();
             }
 
-            struct setPerformanceMoitor_act
+            struct setPerformanceMonitor_act
                 : hpx::actions::make_action<
                       decltype(&PerformancePolicy::setPerformanceMonitor),
                       &PerformancePolicy::setPerformanceMonitor,
-                      setPerformanceMoitor_act>::type {};
+                      setPerformanceMonitor_act>::type {};
 
             static void initAllPerformanceMonitor() {
+                /*auto result = hpx::lcos::broadcast<setPerformanceMonitor_act>(
+                    hpx::find_all_localities());
+                result.wait();*/
+
                 hpx::wait_all(
-                    hpx::lcos::broadcast<setPerformanceMoitor_act>(
+                    hpx::lcos::broadcast<setPerformanceMonitor_act>(
                         hpx::find_all_localities()));
             }
 
@@ -118,8 +122,9 @@ namespace Workstealing {
                 hpx::wait_all(futs);
 
                 hpx::wait_all(hpx::lcos::broadcast<setDistributedDepthPools_act>(hpx::find_all_localities(), pools));
-
                 initAllPerformanceMonitor();
+                hpx::cout << "end_init" << std::endl;
+
             }
         };
 

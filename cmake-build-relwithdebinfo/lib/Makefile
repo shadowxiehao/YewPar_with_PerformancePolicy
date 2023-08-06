@@ -257,6 +257,30 @@ workstealing/Scheduler.cpp.s:
 	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/workstealing/Scheduler.cpp.s
 .PHONY : workstealing/Scheduler.cpp.s
 
+workstealing/channels/SchedulerChannels.o: workstealing/channels/SchedulerChannels.cpp.o
+.PHONY : workstealing/channels/SchedulerChannels.o
+
+# target to build an object file
+workstealing/channels/SchedulerChannels.cpp.o:
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o
+.PHONY : workstealing/channels/SchedulerChannels.cpp.o
+
+workstealing/channels/SchedulerChannels.i: workstealing/channels/SchedulerChannels.cpp.i
+.PHONY : workstealing/channels/SchedulerChannels.i
+
+# target to preprocess a source file
+workstealing/channels/SchedulerChannels.cpp.i:
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.i
+.PHONY : workstealing/channels/SchedulerChannels.cpp.i
+
+workstealing/channels/SchedulerChannels.s: workstealing/channels/SchedulerChannels.cpp.s
+.PHONY : workstealing/channels/SchedulerChannels.s
+
+# target to generate assembly for a file
+workstealing/channels/SchedulerChannels.cpp.s:
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo && $(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.s
+.PHONY : workstealing/channels/SchedulerChannels.cpp.s
+
 workstealing/policies/PerformanceMonitor.o: workstealing/policies/PerformanceMonitor.cpp.o
 .PHONY : workstealing/policies/PerformanceMonitor.o
 
@@ -376,6 +400,9 @@ help:
 	@echo "... workstealing/Scheduler.o"
 	@echo "... workstealing/Scheduler.i"
 	@echo "... workstealing/Scheduler.s"
+	@echo "... workstealing/channels/SchedulerChannels.o"
+	@echo "... workstealing/channels/SchedulerChannels.i"
+	@echo "... workstealing/channels/SchedulerChannels.s"
 	@echo "... workstealing/policies/PerformanceMonitor.o"
 	@echo "... workstealing/policies/PerformanceMonitor.i"
 	@echo "... workstealing/policies/PerformanceMonitor.s"

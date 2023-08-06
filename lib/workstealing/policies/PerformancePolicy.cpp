@@ -77,7 +77,6 @@ namespace Workstealing {
 
         hpx::function<void(), false> PerformancePolicy::getWork() {
 
-            hpx::cout << "getWork start:" << hpx::get_locality_id() << std::endl;//test
             std::unique_lock<mutex_t> l(mtx);
 
             hpx::distributed::function<void(hpx::id_type)> task;
@@ -123,7 +122,6 @@ namespace Workstealing {
             distributed_workpools.erase(
                 std::remove_if(distributed_workpools.begin(), distributed_workpools.end(), YewPar::util::isColocated),
                 distributed_workpools.end());
-
 
         }
 

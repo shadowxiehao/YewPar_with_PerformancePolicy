@@ -4,7 +4,9 @@
 #include <hpx/execution.hpp>
 
 
-namespace Workstealing { namespace Scheduler {
+namespace Workstealing {
+
+    namespace Scheduler {
 
 void scheduler(hpx::function<void(), false> initialTask) {
   workstealing::ExponentialBackoff backoff;
@@ -14,9 +16,13 @@ void scheduler(hpx::function<void(), false> initialTask) {
     return;
   }
 
+  //unsigned local_id_num;
+
   {
     std::unique_lock<hpx::mutex> l(mtx);
-    numRunningSchedulers++;
+    //local_id_num = numRunningSchedulers;
+
+    ++numRunningSchedulers;
   }
 
   // If we are pre-initialised then run that task first then enter the scheduler in this thread
@@ -24,10 +30,16 @@ void scheduler(hpx::function<void(), false> initialTask) {
     initialTask();
   }
 
+
+
   for (;;) {
     if (!running) {
       break;
     }
+      //note State
+    //schedulerChannelHolder->setState(local_id_num, ThreadState::WORKING);
+    //std::string message = "setChannel_" + hpx::get_locality_name() + "-" + std::to_string(local_id_num)  + ":" + toString(schedulerChannelHolder->getState(local_id_num));
+    //hpx::cout << message + "\n";
 
     auto task = local_policy->getWork();
 
@@ -64,6 +76,11 @@ void stopSchedulers() {
 }
 
 void startSchedulers(unsigned n) {
+
+    //numRunningSchedulers = 0;
+
+    //// Find the channel using the symbolic name
+    //hpx::id_type id = hpx::find_from_basename("SchedulerChannel", 0).get();
 
     local_policy->startPerformanceMonitor();
     hpx::cout << "startSchedulers:" << hpx::get_locality_name() << std::endl;

@@ -359,10 +359,12 @@ lib/workstealing/all: lib/workstealing/CMakeFiles/Workqueue_component.dir/all
 lib/workstealing/all: lib/workstealing/CMakeFiles/DepthPool_component.dir/all
 lib/workstealing/all: lib/workstealing/CMakeFiles/PriorityWorkqueue_component.dir/all
 lib/workstealing/all: lib/workstealing/policies/all
+lib/workstealing/all: lib/workstealing/channels/all
 .PHONY : lib/workstealing/all
 
 # Recursive "preinstall" directory target.
 lib/workstealing/preinstall: lib/workstealing/policies/preinstall
+lib/workstealing/preinstall: lib/workstealing/channels/preinstall
 .PHONY : lib/workstealing/preinstall
 
 # Recursive "clean" directory target.
@@ -370,7 +372,23 @@ lib/workstealing/clean: lib/workstealing/CMakeFiles/Workqueue_component.dir/clea
 lib/workstealing/clean: lib/workstealing/CMakeFiles/DepthPool_component.dir/clean
 lib/workstealing/clean: lib/workstealing/CMakeFiles/PriorityWorkqueue_component.dir/clean
 lib/workstealing/clean: lib/workstealing/policies/clean
+lib/workstealing/clean: lib/workstealing/channels/clean
 .PHONY : lib/workstealing/clean
+
+#=============================================================================
+# Directory level rules for directory lib/workstealing/channels
+
+# Recursive "all" directory target.
+lib/workstealing/channels/all:
+.PHONY : lib/workstealing/channels/all
+
+# Recursive "preinstall" directory target.
+lib/workstealing/channels/preinstall:
+.PHONY : lib/workstealing/channels/preinstall
+
+# Recursive "clean" directory target.
+lib/workstealing/channels/clean:
+.PHONY : lib/workstealing/channels/clean
 
 #=============================================================================
 # Directory level rules for directory lib/workstealing/policies
@@ -399,12 +417,12 @@ lib/CMakeFiles/YewPar.dir/all: lib/util/CMakeFiles/Incumbent_component.dir/all
 lib/CMakeFiles/YewPar.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/depend
 	$(MAKE) $(MAKESILENT) -f lib/CMakeFiles/YewPar.dir/build.make lib/CMakeFiles/YewPar.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=16,17,18,19,20,21,22,23 "Built target YewPar"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=16,17,18,19,20,21,22,23,24 "Built target YewPar"
 .PHONY : lib/CMakeFiles/YewPar.dir/all
 
 # Build rule for subdir invocation for target.
 lib/CMakeFiles/YewPar.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 20
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 21
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 lib/CMakeFiles/YewPar.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : lib/CMakeFiles/YewPar.dir/rule
@@ -587,12 +605,12 @@ apps/bnb/knapsack/CMakeFiles/knapsack.dir/all: lib/util/CMakeFiles/Incumbent_com
 apps/bnb/knapsack/CMakeFiles/knapsack.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/bnb/knapsack/CMakeFiles/knapsack.dir/build.make apps/bnb/knapsack/CMakeFiles/knapsack.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/bnb/knapsack/CMakeFiles/knapsack.dir/build.make apps/bnb/knapsack/CMakeFiles/knapsack.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=26,27 "Built target knapsack"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=27,28 "Built target knapsack"
 .PHONY : apps/bnb/knapsack/CMakeFiles/knapsack.dir/all
 
 # Build rule for subdir invocation for target.
 apps/bnb/knapsack/CMakeFiles/knapsack.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/bnb/knapsack/CMakeFiles/knapsack.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/bnb/knapsack/CMakeFiles/knapsack.dir/rule
@@ -619,12 +637,12 @@ apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/all: lib/util/CMakeFiles/Incumben
 apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/build.make apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/build.make apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=28,29,30 "Built target maxclique-16"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=29,30,31 "Built target maxclique-16"
 .PHONY : apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/all
 
 # Build rule for subdir invocation for target.
 apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/bnb/maxclique/CMakeFiles/maxclique-16.dir/rule
@@ -651,12 +669,12 @@ apps/bnb/mcs/CMakeFiles/mcs-8.dir/all: lib/util/CMakeFiles/Incumbent_component.d
 apps/bnb/mcs/CMakeFiles/mcs-8.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/bnb/mcs/CMakeFiles/mcs-8.dir/build.make apps/bnb/mcs/CMakeFiles/mcs-8.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/bnb/mcs/CMakeFiles/mcs-8.dir/build.make apps/bnb/mcs/CMakeFiles/mcs-8.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=31,32,33 "Built target mcs-8"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=32,33,34 "Built target mcs-8"
 .PHONY : apps/bnb/mcs/CMakeFiles/mcs-8.dir/all
 
 # Build rule for subdir invocation for target.
 apps/bnb/mcs/CMakeFiles/mcs-8.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/bnb/mcs/CMakeFiles/mcs-8.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/bnb/mcs/CMakeFiles/mcs-8.dir/rule
@@ -683,12 +701,12 @@ apps/bnb/tsp/CMakeFiles/tsp.dir/all: lib/util/CMakeFiles/Incumbent_component.dir
 apps/bnb/tsp/CMakeFiles/tsp.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/bnb/tsp/CMakeFiles/tsp.dir/build.make apps/bnb/tsp/CMakeFiles/tsp.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/bnb/tsp/CMakeFiles/tsp.dir/build.make apps/bnb/tsp/CMakeFiles/tsp.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=42,43,44 "Built target tsp"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=43,44,45 "Built target tsp"
 .PHONY : apps/bnb/tsp/CMakeFiles/tsp.dir/all
 
 # Build rule for subdir invocation for target.
 apps/bnb/tsp/CMakeFiles/tsp.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/bnb/tsp/CMakeFiles/tsp.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/bnb/tsp/CMakeFiles/tsp.dir/rule
@@ -720,7 +738,7 @@ apps/enumeration/numericalSemigroups/CMakeFiles/NS-hivert.dir/all: lib/util/CMak
 
 # Build rule for subdir invocation for target.
 apps/enumeration/numericalSemigroups/CMakeFiles/NS-hivert.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/enumeration/numericalSemigroups/CMakeFiles/NS-hivert.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/enumeration/numericalSemigroups/CMakeFiles/NS-hivert.dir/rule
@@ -747,12 +765,12 @@ apps/enumeration/fib/CMakeFiles/enum-fib.dir/all: lib/util/CMakeFiles/Incumbent_
 apps/enumeration/fib/CMakeFiles/enum-fib.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/fib/CMakeFiles/enum-fib.dir/build.make apps/enumeration/fib/CMakeFiles/enum-fib.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/fib/CMakeFiles/enum-fib.dir/build.make apps/enumeration/fib/CMakeFiles/enum-fib.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=24,25 "Built target enum-fib"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=25,26 "Built target enum-fib"
 .PHONY : apps/enumeration/fib/CMakeFiles/enum-fib.dir/all
 
 # Build rule for subdir invocation for target.
 apps/enumeration/fib/CMakeFiles/enum-fib.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/enumeration/fib/CMakeFiles/enum-fib.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/enumeration/fib/CMakeFiles/enum-fib.dir/rule
@@ -779,12 +797,12 @@ apps/enumeration/uts/CMakeFiles/uts.dir/all: lib/util/CMakeFiles/Incumbent_compo
 apps/enumeration/uts/CMakeFiles/uts.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/uts/CMakeFiles/uts.dir/build.make apps/enumeration/uts/CMakeFiles/uts.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/uts/CMakeFiles/uts.dir/build.make apps/enumeration/uts/CMakeFiles/uts.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=45,46,47 "Built target uts"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=46,47,48 "Built target uts"
 .PHONY : apps/enumeration/uts/CMakeFiles/uts.dir/all
 
 # Build rule for subdir invocation for target.
 apps/enumeration/uts/CMakeFiles/uts.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 24
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/enumeration/uts/CMakeFiles/uts.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/enumeration/uts/CMakeFiles/uts.dir/rule
@@ -811,12 +829,12 @@ apps/enumeration/nqueens/CMakeFiles/nqueens.dir/all: lib/util/CMakeFiles/Incumbe
 apps/enumeration/nqueens/CMakeFiles/nqueens.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/nqueens/CMakeFiles/nqueens.dir/build.make apps/enumeration/nqueens/CMakeFiles/nqueens.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/enumeration/nqueens/CMakeFiles/nqueens.dir/build.make apps/enumeration/nqueens/CMakeFiles/nqueens.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=34,35 "Built target nqueens"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=35,36 "Built target nqueens"
 .PHONY : apps/enumeration/nqueens/CMakeFiles/nqueens.dir/all
 
 # Build rule for subdir invocation for target.
 apps/enumeration/nqueens/CMakeFiles/nqueens.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 22
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 23
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/enumeration/nqueens/CMakeFiles/nqueens.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/enumeration/nqueens/CMakeFiles/nqueens.dir/rule
@@ -843,12 +861,12 @@ apps/decision/sip/CMakeFiles/sip.dir/all: lib/util/CMakeFiles/Incumbent_componen
 apps/decision/sip/CMakeFiles/sip.dir/all: lib/util/CMakeFiles/DistSetOnceFlag_component.dir/all
 	$(MAKE) $(MAKESILENT) -f apps/decision/sip/CMakeFiles/sip.dir/build.make apps/decision/sip/CMakeFiles/sip.dir/depend
 	$(MAKE) $(MAKESILENT) -f apps/decision/sip/CMakeFiles/sip.dir/build.make apps/decision/sip/CMakeFiles/sip.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=36,37,38,39,40,41 "Built target sip"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=37,38,39,40,41,42 "Built target sip"
 .PHONY : apps/decision/sip/CMakeFiles/sip.dir/all
 
 # Build rule for subdir invocation for target.
 apps/decision/sip/CMakeFiles/sip.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 26
+	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 27
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 apps/decision/sip/CMakeFiles/sip.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles 0
 .PHONY : apps/decision/sip/CMakeFiles/sip.dir/rule

@@ -11,6 +11,7 @@ class Policy {
   virtual void initPerformanceMonitor() {}
   virtual void startPerformanceMonitor() {}
   virtual void stopPerformanceMonitor() {}
+
 };
 
 #endif

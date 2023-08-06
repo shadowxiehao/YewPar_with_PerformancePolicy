@@ -1,6 +1,8 @@
 #ifndef Performance_Moitor_HPP
 #define Performance_Moitor_HPP
 
+#include "workstealing/channels/SchedulerChannels.hpp"
+
 #include <hpx/parallel/algorithms/sort.hpp>
 #include <hpx/include/components.hpp>
 #include <hpx/parallel/task_group.hpp>
@@ -10,17 +12,22 @@
 
 namespace Workstealing
 {
+    namespace Scheduler {
+        //extern std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
+    }
 	namespace Policies
 	{
-		namespace PerformancePolicyPerf
-		{
-			void registerPerformanceCounters();
-		}
+		//namespace PerformancePolicyPerf
+		//{
+		//	void registerPerformanceCounters();
+		//}
 
 
 		class PerformanceMonitor{
 
 		private:
+            //channels
+            //hpx::components::client<SchedulerChannelHolder> schedulerChannelHolder;
 
 			//node id
 			hpx::id_type& local_workpool;
@@ -43,21 +50,18 @@ namespace Workstealing
                 return a.cpuLoad < b.cpuLoad;
                 }
             };
-
+            
             std::vector<NodeInfo> nodeInfoVector;
 
-			
-			void compareNode() {
-                hpx::sort(nodeInfoVector.begin(),
-                          nodeInfoVector.end(),
-                          CompareNodeInfo());
-			}
+			//compute
+            void compareNode();
 
             //init
 		    void generateNodeInfoVector();
+            void generateChannels();
 
 
-            //get info
+            //---get info---
             hpx::execution::experimental::task_group infoTasks;
 
             hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::bound);
@@ -73,6 +77,7 @@ namespace Workstealing
             bool autoRefreshInfo();
 
             void refreshCpuLoad();
+            void refreshSchedularInfo();
 
 
 		public:
@@ -86,17 +91,17 @@ namespace Workstealing
                 hpx::async(top_priority_executor, [&]() { autoRefreshInfo(); });
             }
 
-            void init() {
-                generateNodeInfoVector();
-            }
-
-            //get ids
-            hpx::id_type getTopWorthStealId();
+            void init();
 
             void stop() {
                 performanceMonitorRunning.store(false);
                 //hpx::cout << "stopSchedulers2:" << hpx::get_locality_name()<< performanceMonitorRunning << std::endl;
             }
+
+            //get ids
+            hpx::id_type getTopWorthStealId();
+            
+            //channel
         };
 
 	}

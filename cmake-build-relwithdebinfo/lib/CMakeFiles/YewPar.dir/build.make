@@ -153,10 +153,24 @@ lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.s: cmake_
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.s"
 	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cluster/gpg/hao/YewPar/lib/workstealing/policies/PerformanceMonitor.cpp -o CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.s
 
+lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o: lib/CMakeFiles/YewPar.dir/flags.make
+lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o: /cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp
+lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o: lib/CMakeFiles/YewPar.dir/compiler_depend.ts
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o"
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o -MF CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o.d -o CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o -c /cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp
+
+lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.i"
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp > CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.i
+
+lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.s"
+	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp -o CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.s
+
 lib/CMakeFiles/YewPar.dir/util/util.cpp.o: lib/CMakeFiles/YewPar.dir/flags.make
 lib/CMakeFiles/YewPar.dir/util/util.cpp.o: /cluster/gpg/hao/YewPar/lib/util/util.cpp
 lib/CMakeFiles/YewPar.dir/util/util.cpp.o: lib/CMakeFiles/YewPar.dir/compiler_depend.ts
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object lib/CMakeFiles/YewPar.dir/util/util.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object lib/CMakeFiles/YewPar.dir/util/util.cpp.o"
 	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -MD -MT lib/CMakeFiles/YewPar.dir/util/util.cpp.o -MF CMakeFiles/YewPar.dir/util/util.cpp.o.d -o CMakeFiles/YewPar.dir/util/util.cpp.o -c /cluster/gpg/hao/YewPar/lib/util/util.cpp
 
 lib/CMakeFiles/YewPar.dir/util/util.cpp.i: cmake_force
@@ -175,6 +189,7 @@ YewPar_OBJECTS = \
 "CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o" \
 "CMakeFiles/YewPar.dir/workstealing/policies/PerformancePolicy.cpp.o" \
 "CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o" \
+"CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o" \
 "CMakeFiles/YewPar.dir/util/util.cpp.o"
 
 # External object files for target YewPar
@@ -186,6 +201,7 @@ lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/workstealing/policies/Workpool.c
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformancePolicy.cpp.o
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o
+lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/util/util.cpp.o
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/build.make
 lib/libhpx_YewPar.so: lib/workstealing/libhpx_Workqueue.so
@@ -200,7 +216,7 @@ lib/libhpx_YewPar.so: /cluster/gpg/YewParDeps/hpx1.8/lib/libhpx_core.so
 lib/libhpx_YewPar.so: /cluster/gpg/YewParDeps/gperftools-2.7/lib/libtcmalloc_minimal.so
 lib/libhpx_YewPar.so: /usr/lib/x86_64-linux-gnu/libhwloc.so
 lib/libhpx_YewPar.so: lib/CMakeFiles/YewPar.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX shared library libhpx_YewPar.so"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX shared library libhpx_YewPar.so"
 	cd /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/YewPar.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.

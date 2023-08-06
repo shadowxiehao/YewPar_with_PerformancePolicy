@@ -11,6 +11,7 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/cluster/gpg/hao/YewPar/lib/YewPar.cpp" "lib/CMakeFiles/YewPar.dir/YewPar.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/YewPar.cpp.o.d"
   "/cluster/gpg/hao/YewPar/lib/util/util.cpp" "lib/CMakeFiles/YewPar.dir/util/util.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/util/util.cpp.o.d"
   "/cluster/gpg/hao/YewPar/lib/workstealing/Scheduler.cpp" "lib/CMakeFiles/YewPar.dir/workstealing/Scheduler.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/workstealing/Scheduler.cpp.o.d"
+  "/cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp" "lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o.d"
   "/cluster/gpg/hao/YewPar/lib/workstealing/policies/PerformanceMonitor.cpp" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o.d"
   "/cluster/gpg/hao/YewPar/lib/workstealing/policies/PerformancePolicy.cpp" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformancePolicy.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PerformancePolicy.cpp.o.d"
   "/cluster/gpg/hao/YewPar/lib/workstealing/policies/PriorityOrdered.cpp" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o" "gcc" "lib/CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o.d"

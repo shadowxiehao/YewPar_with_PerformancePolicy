@@ -5,6 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/YewPar.dir/util/util.cpp.o.d"
   "CMakeFiles/YewPar.dir/workstealing/Scheduler.cpp.o"
   "CMakeFiles/YewPar.dir/workstealing/Scheduler.cpp.o.d"
+  "CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o"
+  "CMakeFiles/YewPar.dir/workstealing/channels/SchedulerChannels.cpp.o.d"
   "CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o"
   "CMakeFiles/YewPar.dir/workstealing/policies/PerformanceMonitor.cpp.o.d"
   "CMakeFiles/YewPar.dir/workstealing/policies/PerformancePolicy.cpp.o"

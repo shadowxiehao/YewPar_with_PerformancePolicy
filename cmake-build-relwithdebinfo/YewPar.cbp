@@ -5,7 +5,7 @@
 		<Option title="YewPar"/>
 		<Option makefile_is_custom="1"/>
 		<Option compiler="gcc"/>
-		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\YewParDeps\;CMake Files\..\..\YewParDeps\hpx1.8\;CMake Files\..\..\YewParDeps\hpx1.8\lib\;CMake Files\..\..\YewParDeps\hpx1.8\lib\cmake\;CMake Files\..\..\YewParDeps\hpx1.8\lib\cmake\HPX\;CMake Files\lib\;CMake Files\lib\workstealing\;CMake Files\lib\workstealing\policies\;CMake Files\lib\skeletons\;CMake Files\lib\util\;CMake Files\apps\;CMake Files\apps\bnb\;CMake Files\apps\bnb\knapsack\;CMake Files\apps\bnb\maxclique\;CMake Files\apps\bnb\mcs\;CMake Files\apps\bnb\tsp\;CMake Files\apps\enumeration\;CMake Files\apps\enumeration\numericalSemigroups\;CMake Files\apps\enumeration\fib\;CMake Files\apps\enumeration\uts\;CMake Files\apps\enumeration\nqueens\;CMake Files\apps\decision\;CMake Files\apps\decision\sip\;"/>
+		<Option virtualFolders="CMake Files\;CMake Files\..\;CMake Files\..\..\;CMake Files\..\..\YewParDeps\;CMake Files\..\..\YewParDeps\hpx1.8\;CMake Files\..\..\YewParDeps\hpx1.8\lib\;CMake Files\..\..\YewParDeps\hpx1.8\lib\cmake\;CMake Files\..\..\YewParDeps\hpx1.8\lib\cmake\HPX\;CMake Files\lib\;CMake Files\lib\workstealing\;CMake Files\lib\workstealing\policies\;CMake Files\lib\workstealing\channels\;CMake Files\lib\skeletons\;CMake Files\lib\util\;CMake Files\apps\;CMake Files\apps\bnb\;CMake Files\apps\bnb\knapsack\;CMake Files\apps\bnb\maxclique\;CMake Files\apps\bnb\mcs\;CMake Files\apps\bnb\tsp\;CMake Files\apps\enumeration\;CMake Files\apps\enumeration\numericalSemigroups\;CMake Files\apps\enumeration\fib\;CMake Files\apps\enumeration\uts\;CMake Files\apps\enumeration\nqueens\;CMake Files\apps\decision\;CMake Files\apps\decision\sip\;"/>
 		<Build>
 			<Target title="all">
 				<Option working_dir="/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo"/>
@@ -1171,6 +1171,12 @@
 		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/Workqueue.hpp">
 			<Option target="Workqueue_component"/>
 		</Unit>
+		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.cpp">
+			<Option target="YewPar"/>
+		</Unit>
+		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.hpp">
+			<Option target="YewPar"/>
+		</Unit>
 		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/policies/PerformanceMonitor.cpp">
 			<Option target="YewPar"/>
 		</Unit>
@@ -1359,6 +1365,9 @@
 		</Unit>
 		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/policies/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\workstealing\policies\"/>
+		</Unit>
+		<Unit filename="/cluster/gpg/hao/YewPar/lib/workstealing/channels/CMakeLists.txt">
+			<Option virtualFolder="CMake Files\lib\workstealing\channels\"/>
 		</Unit>
 		<Unit filename="/cluster/gpg/hao/YewPar/lib/skeletons/CMakeLists.txt">
 			<Option virtualFolder="CMake Files\lib\skeletons\"/>

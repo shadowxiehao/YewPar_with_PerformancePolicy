@@ -18,6 +18,8 @@ add_hpx_library(YewPar
   workstealing/policies/PerformancePolicy.cpp
   workstealing/policies/PerformanceMonitor.hpp
   workstealing/policies/PerformanceMonitor.cpp
+#  workstealing/channels/SchedulerChannels.hpp
+#  workstealing/channels/SchedulerChannels.cpp
   util/util.hpp
   util/util.cpp
 

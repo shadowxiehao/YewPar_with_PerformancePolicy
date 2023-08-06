@@ -31,6 +31,13 @@
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/policies/CMakeFiles/install.dir
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/policies/CMakeFiles/install/local.dir
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/policies/CMakeFiles/install/strip.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/test.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/edit_cache.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/rebuild_cache.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/list_install_components.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/install.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/install/local.dir
+/cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/workstealing/channels/CMakeFiles/install/strip.dir
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/skeletons/CMakeFiles/test.dir
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/skeletons/CMakeFiles/edit_cache.dir
 /cluster/gpg/hao/YewPar/cmake-build-relwithdebinfo/lib/skeletons/CMakeFiles/rebuild_cache.dir

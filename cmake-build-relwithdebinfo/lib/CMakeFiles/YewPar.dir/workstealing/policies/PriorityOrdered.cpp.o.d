@@ -2071,20 +2071,39 @@ lib/CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o: \
  /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/range/iterator_range_io.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_distributed/find_all_localities.hpp \
  /cluster/gpg/hao/YewPar/lib/workstealing/policies/Policy.hpp \
- /cluster/gpg/hao/YewPar/lib/workstealing/PriorityWorkqueue.hpp \
- /usr/include/c++/11/queue /usr/include/c++/11/bits/stl_queue.h \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/components.hpp \
+ /cluster/gpg/hao/YewPar/lib/workstealing/channels/SchedulerChannels.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/lcos.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/async.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/async_colocated_callback.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/async_colocated_callback_fwd.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/async_continue_callback.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/async_callback_fwd.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/async_callback.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/dataflow.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/dataflow.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/lcos_local.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/lcos_local/trigger.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/modules/async_combinators.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/split_future.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/wait_any.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/wait_some.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/wait_each.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/when_each.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/when_any.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_combinators/when_some.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/actions.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/actions_base/lambda_to_action.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/lcos_distributed/channel.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/lcos_distributed/server/channel.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/new.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/create_component_helpers.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/default_distribution_policy.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/include/components.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/component_factory.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/component_registry.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/server/destroy_component.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/default_distribution_policy.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/dataflow.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/create_component_helpers.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/derived_component_factory.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/distributed_metadata_base.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_components/new.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/actions/invoke_function.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/executor_component.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/get_ptr.hpp \
@@ -2103,11 +2122,106 @@ lib/CMakeFiles/YewPar.dir/workstealing/policies/PriorityOrdered.cpp.o: \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/performance_counters/performance_counter_base.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/distribution_policies/colocating_distribution_policy.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/apply_colocated_callback_fwd.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/async_colocated_callback.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_colocated/async_colocated_callback_fwd.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/async_continue_callback.hpp \
- /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/async_callback_fwd.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/distribution_policies/unwrapping_result_policy.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/detail/async_unwrap_result_implementations.hpp \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/async_distributed/detail/async_unwrap_result_implementations_fwd.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/runtime_distributed/find_localities.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/iostream.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/standard_streams.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/export_definitions.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/ostream.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/manipulators.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/server/output_stream.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/server/buffer.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/write_functions.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/components/iostreams/server/order_output.hpp \
+ /cluster/gpg/YewParDeps/hpx1.8/include/hpx/modules/async_distributed.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/stream.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/constants.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/ios.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/wide_streams.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/char_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/overload_resolution.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/gcc.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/forward.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/limits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/push_params.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/iostream.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/select.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/stream_buffer.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/streambuf/direct_streambuf.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/core/typeinfo.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/core/demangle.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/error.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/execute.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/iteration/local.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/slot/slot.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/slot/detail/def.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/iteration/detail/local.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/iteration/detail/limits/local_256.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/functional.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/close.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/categories.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/flush.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/dispatch.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/bool_trait_def.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/template_params.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/preprocessor/control/expr_if.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/is_iterator_range.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/disable_warnings.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/enable_warnings.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/select_by_size.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/wrap_unwrap.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/enable_if_stream.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/traits_fwd.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/ref.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/core/ref.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/streambuf.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/operations_fwd.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/adapter/non_blocking_adapter.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/read.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/char_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/seek.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/integer_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/positioning.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/codecvt.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/fpos.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/write.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/optional.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/type_traits/aligned_storage.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/type_traits/alignment_of.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/type_traits/type_with_alignment.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/streambuf/linked_streambuf.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/operations.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/imbue.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/input_sequence.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/optimal_buffer_size.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/output_sequence.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/streambuf/indirect_streambuf.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/adapter/concept_adapter.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/concepts.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/default_arg.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/call_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/config/unreachable_return.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/device/null.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/buffer.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/checked_operations.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/get.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/put.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/double_object.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/call_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/detail/call_traits.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/push.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/adapter/range_adapter.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/pipeline.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/resolve.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/detail/is_incrementable.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/type_traits/detail/bool_trait_undef.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/adapter/mode_adapter.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/adapter/output_iterator_adapter.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/detail/is_dereferenceable.hpp \
+ /cluster/gpg/YewParDeps/boost_1_79_0/include/boost/iostreams/device/array.hpp \
+ /cluster/gpg/hao/YewPar/lib/workstealing/PriorityWorkqueue.hpp \
+ /usr/include/c++/11/queue /usr/include/c++/11/bits/stl_queue.h \
  /cluster/gpg/YewParDeps/hpx1.8/include/hpx/performance_counters/manage_counter_type.hpp

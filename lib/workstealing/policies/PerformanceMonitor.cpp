@@ -8,7 +8,11 @@
 #include <hpx/include/util.hpp>
 
 namespace Workstealing {
+
+
     namespace Policies {
+
+        //====================== init ======================
 
         PerformanceMonitor::PerformanceMonitor(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools)
             : local_workpool(local_workpool),
@@ -46,14 +50,38 @@ namespace Workstealing {
                 nodeInfoVector = newNodeInfoVector;
             }
 
-            hpx::cout << "generate complete"  << hpx::naming::get_locality_id_from_id(nodeInfoVector.at(0).id)
-                <<" "
-                << hpx::naming::get_locality_id_from_id(nodeInfoVector.at(1).id)
-                << " "
-                << nodeInfoVector.size()
-                << " "
-                << hpx::get_locality_id
-                << std::endl;
+            //hpx::cout << "generate complete"  << hpx::naming::get_locality_id_from_id(nodeInfoVector.at(0).id)
+            //    <<" "
+            //    << hpx::naming::get_locality_id_from_id(nodeInfoVector.at(1).id)
+            //    << " "
+            //    << nodeInfoVector.size()
+            //    << " "
+            //    << hpx::get_locality_id
+            //    << std::endl;
+        }
+
+        void PerformanceMonitor::generateChannels() {
+            //generate SchedulerChannel
+            //hpx::cout << "generateChannels_start"  << std::endl;
+            //Workstealing::Scheduler::schedulerChannelHolder = std::make_shared<Workstealing::SchedulerChannelHolder>() ;
+            //Workstealing::Scheduler::schedulerChannelHolder->init();
+            //hpx::cout << "generateChannels_end"  << std::endl;
+        }
+
+        void PerformanceMonitor::init() {
+            generateChannels();
+            generateNodeInfoVector();
+        }
+
+
+        //====================== get info ======================
+
+        void PerformanceMonitor::refreshSchedularInfo() {
+            // Use the channel
+
+            /*std::string message = hpx::get_locality_name() + "received: " + std::to_string(Workstealing::Scheduler::schedulerChannelHolder->getSize());
+            hpx::cout << message + "\n";*/
+
         }
 
         void PerformanceMonitor::refreshCpuLoad(){
@@ -81,6 +109,7 @@ namespace Workstealing {
         bool PerformanceMonitor::refreshInfo() {
             
             task_group_run_with_executor(infoTasks,top_priority_executor,[&](){refreshCpuLoad();});
+            task_group_run_with_executor(infoTasks, top_priority_executor, [&]() {refreshSchedularInfo(); });
 
             infoTasks.wait();
             compareNode();
@@ -104,11 +133,19 @@ namespace Workstealing {
         hpx::id_type PerformanceMonitor::getTopWorthStealId() {
             hpx::id_type id = nodeInfoVector.at(0).id;
             hpx::async(top_priority_executor, [&]() { refreshInfo(); });
-            hpx::cout << "getTopWorthStealId:" << id << std::endl;
+            //hpx::cout << "getTopWorthStealId:" << id << std::endl;
             return id;
         }
 
-        //tool
+        //====================== compute sequence ======================
+        void PerformanceMonitor::compareNode() {
+            hpx::sort(nodeInfoVector.begin(),
+                nodeInfoVector.end(),
+                CompareNodeInfo());
+        }
+
+
+        //====================== tool ======================
 
         template<typename T>
         hpx::id_type selectByNum(const std::vector<std::pair<T, hpx::id_type>>& loads, bool select_min = true) {

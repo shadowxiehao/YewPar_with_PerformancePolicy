@@ -115,6 +115,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/cluster/gpg/hao/YewPar/lib/skeletons/CMakeLists.txt"
   "/cluster/gpg/hao/YewPar/lib/util/CMakeLists.txt"
   "/cluster/gpg/hao/YewPar/lib/workstealing/CMakeLists.txt"
+  "/cluster/gpg/hao/YewPar/lib/workstealing/channels/CMakeLists.txt"
   "/cluster/gpg/hao/YewPar/lib/workstealing/policies/CMakeLists.txt"
   )
 
@@ -130,6 +131,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
   "lib/CMakeFiles/CMakeDirectoryInformation.cmake"
   "lib/workstealing/CMakeFiles/CMakeDirectoryInformation.cmake"
   "lib/workstealing/policies/CMakeFiles/CMakeDirectoryInformation.cmake"
+  "lib/workstealing/channels/CMakeFiles/CMakeDirectoryInformation.cmake"
   "lib/skeletons/CMakeFiles/CMakeDirectoryInformation.cmake"
   "lib/util/CMakeFiles/CMakeDirectoryInformation.cmake"
   "apps/CMakeFiles/CMakeDirectoryInformation.cmake"
