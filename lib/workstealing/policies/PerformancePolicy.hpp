@@ -73,24 +73,14 @@ namespace Workstealing {
                 &PerformancePolicy::setDistributedDepthPools,
                 setDistributedDepthPools_act>::type {};
 
-            PerformanceMonitor performanceMonitor = PerformanceMonitor(local_workpool, distributed_workpools);
-
-            void initPerformanceMonitor() override{
-                performanceMonitor.init();
-            }
-            void startPerformanceMonitor() override {
-                performanceMonitor.start();
-            }
-            void stopPerformanceMonitor() override {
-                performanceMonitor.stop();
-            }
+            PerformanceMonitor performanceMonitor = PerformanceMonitor();
 
             static void setPerformanceMonitor() {
                 auto performancePolicy = std::static_pointer_cast<
                     Workstealing::Policies::PerformancePolicy>(
                     Workstealing::Scheduler::local_policy);
 
-                performancePolicy->initPerformanceMonitor();
+                performancePolicy->performanceMonitor.init(performancePolicy->local_workpool, performancePolicy->distributed_workpools);
             }
 
             struct setPerformanceMonitor_act
@@ -113,7 +103,7 @@ namespace Workstealing {
                 std::vector<hpx::future<void> > futs;
                 std::vector<hpx::id_type> pools;
                 for (auto const& loc : hpx::find_all_localities()) {
-                    hpx::cout << "initPolicy:"<< hpx::naming::get_locality_id_from_id(loc)<< std::endl;
+                    //hpx::cout << "initPolicy:"<< hpx::naming::get_locality_id_from_id(loc)<< std::endl;
 
                     auto depthpool = hpx::new_<workstealing::DepthPool>(loc).get();
                     futs.push_back(hpx::async<setDepthPool_act>(loc, depthpool));
@@ -122,8 +112,8 @@ namespace Workstealing {
                 hpx::wait_all(futs);
 
                 hpx::wait_all(hpx::lcos::broadcast<setDistributedDepthPools_act>(hpx::find_all_localities(), pools));
+
                 initAllPerformanceMonitor();
-                hpx::cout << "end_init" << std::endl;
 
             }
         };

@@ -7,6 +7,15 @@
 namespace Workstealing {
 
     namespace Scheduler {
+        // Used to stop all schedulers
+        std::atomic<bool> running(true);
+
+        hpx::mutex mtx;
+        hpx::condition_variable exit_cv;
+        unsigned numRunningSchedulers;
+
+        // Implementation policy
+        std::shared_ptr<Policy> local_policy;
 
 void scheduler(hpx::function<void(), false> initialTask) {
   workstealing::ExponentialBackoff backoff;
@@ -62,8 +71,7 @@ void scheduler(hpx::function<void(), false> initialTask) {
 
 void stopSchedulers() {
 
-    local_policy->stopPerformanceMonitor();
-    hpx::cout << "stopSchedulers:" << hpx::get_locality_name() << std::endl;
+    //hpx::cout << "stopSchedulers:" << hpx::get_locality_name() << std::endl;
 
   running.store(false);
   {
@@ -82,8 +90,7 @@ void startSchedulers(unsigned n) {
     //// Find the channel using the symbolic name
     //hpx::id_type id = hpx::find_from_basename("SchedulerChannel", 0).get();
 
-    local_policy->startPerformanceMonitor();
-    hpx::cout << "startSchedulers:" << hpx::get_locality_name() << std::endl;
+    //hpx::cout << "startSchedulers:" << hpx::get_locality_name() << std::endl;
 
   hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
                                         hpx::threads::thread_stacksize::huge);

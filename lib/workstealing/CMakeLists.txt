@@ -1,5 +1,5 @@
 add_subdirectory(policies)
-#add_subdirectory(channels)
+add_subdirectory(channels)
 
 add_hpx_component(Workqueue
     SOURCES Workqueue.cpp

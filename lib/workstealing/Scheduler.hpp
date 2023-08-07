@@ -16,14 +16,14 @@ namespace Workstealing {
         //inline std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
 
 // Used to stop all schedulers
-std::atomic<bool> running(true);
+extern std::atomic<bool> running;
 
-hpx::mutex mtx;
-hpx::condition_variable exit_cv;
-unsigned numRunningSchedulers;
+extern hpx::mutex mtx;
+extern hpx::condition_variable exit_cv;
+extern unsigned numRunningSchedulers;
 
 // Implementation policy
-std::shared_ptr<Policy> local_policy;
+extern std::shared_ptr<Policy> local_policy;
 
 void stopSchedulers();
 HPX_DEFINE_PLAIN_ACTION(stopSchedulers, stopSchedulers_act);
