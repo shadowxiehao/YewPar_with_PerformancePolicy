@@ -1,7 +1,7 @@
 #ifndef Performance_Moitor_HPP
 #define Performance_Moitor_HPP
 
-//#include "workstealing/channels/SchedulerChannels.hpp"
+#include "workstealing/channels/SchedulerChannels.hpp"
 #include "workstealing/Scheduler.hpp"
 
 #include <hpx/parallel/algorithms/sort.hpp>
@@ -10,12 +10,11 @@
 #include <hpx/execution.hpp>
 #include <hpx/iostream.hpp>
 #include <atomic>
+#include <hpx/include/unordered_map.hpp>
 
 namespace Workstealing
 {
-    namespace Scheduler {
-        //extern std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
-    }
+
 	namespace Policies
 	{
 		//namespace PerformancePolicyPerf
@@ -23,12 +22,9 @@ namespace Workstealing
 		//	void registerPerformanceCounters();
 		//}
 
-
 		class PerformanceMonitor{
 
 		private:
-            //channels
-            //hpx::components::client<SchedulerChannelHolder> schedulerChannelHolder;
 
 			//node id
 			hpx::id_type local_workpool;
@@ -104,13 +100,7 @@ namespace Workstealing
                 hpx::async(top_priority_executor, [&]() { autoRefreshInfo(); });
             }
 
-            void init(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools) {
-                this->local_workpool = local_workpool;
-                this->distributed_workpools = distributed_workpools;
-                generateChannels();
-                generateNodeInfoVector();
-                start();
-            }
+            void init(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools);
 
             //void stop() {
             //    performanceMonitorRunning.store(false);

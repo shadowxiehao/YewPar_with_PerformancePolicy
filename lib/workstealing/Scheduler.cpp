@@ -7,6 +7,8 @@
 namespace Workstealing {
 
     namespace Scheduler {
+
+
         // Used to stop all schedulers
         std::atomic<bool> running(true);
 
@@ -25,11 +27,11 @@ void scheduler(hpx::function<void(), false> initialTask) {
     return;
   }
 
-  //unsigned local_id_num;
+  unsigned local_id_num;
 
   {
     std::unique_lock<hpx::mutex> l(mtx);
-    //local_id_num = numRunningSchedulers;
+    local_id_num = numRunningSchedulers;
 
     ++numRunningSchedulers;
   }
@@ -39,28 +41,33 @@ void scheduler(hpx::function<void(), false> initialTask) {
     initialTask();
   }
 
-
+  schedulerChannelHolder->setState(local_id_num, ThreadState::IDLE);
 
   for (;;) {
     if (!running) {
       break;
     }
-      //note State
-    //schedulerChannelHolder->setState(local_id_num, ThreadState::WORKING);
-    //std::string message = "setChannel_" + hpx::get_locality_name() + "-" + std::to_string(local_id_num)  + ":" + toString(schedulerChannelHolder->getState(local_id_num));
-    //hpx::cout << message + "\n";
 
     auto task = local_policy->getWork();
 
     if (task) {
       backoff.reset();
+
+      schedulerChannelHolder->setState(local_id_num, ThreadState::WORKING);
+
       task();
+
+      schedulerChannelHolder->setState(local_id_num, ThreadState::IDLE);
+
+      /*std::string msg = hpx::get_locality_name() + "_" + "getRate_" + std::to_string(schedulerChannelHolder->getWorkRate(local_id_num))+"\n";
+      hpx::cout << msg << std::flush;*/
+
     } else {
       backoff.failed();
       hpx::this_thread::suspend(backoff.getSleepTime());
     }
   }
-
+  schedulerChannelHolder->setState(local_id_num, ThreadState::Dead);
   {
     // Signal exit
     std::unique_lock<hpx::mutex> l(mtx);
@@ -70,8 +77,6 @@ void scheduler(hpx::function<void(), false> initialTask) {
 }
 
 void stopSchedulers() {
-
-    //hpx::cout << "stopSchedulers:" << hpx::get_locality_name() << std::endl;
 
   running.store(false);
   {

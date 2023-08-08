@@ -9,7 +9,8 @@
 
 
 namespace Workstealing {
-
+        //channel
+        std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
 
     namespace Policies {
 
@@ -17,6 +18,14 @@ namespace Workstealing {
 
         /*PerformanceMonitor::PerformanceMonitor() {
         }*/
+        void PerformanceMonitor::init(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools) {
+            this->local_workpool = local_workpool;
+            this->distributed_workpools = distributed_workpools;
+
+            generateNodeInfoVector();
+            generateChannels();
+            start();
+        }
 
         void PerformanceMonitor::generateNodeInfoVector() {
             
@@ -30,9 +39,8 @@ namespace Workstealing {
         void PerformanceMonitor::generateChannels() {
             //generate SchedulerChannel
             //hpx::cout << "generateChannels_start"  << std::endl;
-            //Workstealing::Scheduler::schedulerChannelHolder = std::make_shared<Workstealing::SchedulerChannelHolder>() ;
-            //Workstealing::Scheduler::schedulerChannelHolder->init();
-            //hpx::cout << "generateChannels_end"  << std::endl;
+            schedulerChannelHolder = std::make_shared<Workstealing::SchedulerChannelHolder>() ;
+            schedulerChannelHolder->init();
         }
 
         //====================== node func ====================
@@ -79,10 +87,11 @@ namespace Workstealing {
 
         void PerformanceMonitor::refreshSchedularInfo() {
             // Use the channel
+            workRatesGlobalMap->set_value(globalWorkRateAverageName + std::to_string(hpx::get_locality_id()), schedulerChannelHolder->getWorkRateAverage()).get();
+            double value = workRatesGlobalMap->get_value(globalWorkRateAverageName+ std::to_string(hpx::get_locality_id())).get();
 
-            /*std::string message = hpx::get_locality_name() + "received: " + std::to_string(Workstealing::Scheduler::schedulerChannelHolder->getSize());
-            hpx::cout << message + "\n";*/
-
+            std::string message = hpx::get_locality_name() + "received: " + std::to_string(value) + "\n";
+            hpx::cout << message <<std::flush;
         }
 
         void PerformanceMonitor::refreshCpuLoad(){

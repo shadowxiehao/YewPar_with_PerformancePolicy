@@ -2,6 +2,11 @@ add_subdirectory(workstealing)
 add_subdirectory(skeletons)
 add_subdirectory(util)
 
+set(HPX_COMPONENTS
+    ${HPX_COMPONENTS} unordered
+    CACHE INTERNAL "list of HPX components"
+)
+
 add_hpx_library(YewPar
   SOURCES
   YewPar.hpp
@@ -31,4 +36,7 @@ add_hpx_library(YewPar
   SearchManager
   DistSetOnceFlag
   iostreams
+  SchedulerChannels
+  #add unordered is important for using unordered_map's .register_as, i dont know why they need to add these but tell us nothing in hpx doc
+  unordered
 )

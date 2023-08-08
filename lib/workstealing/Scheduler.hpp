@@ -9,11 +9,12 @@
 #include <hpx/iostream.hpp>
 
 #include "policies/Policy.hpp"
-//#include "workstealing/channels/SchedulerChannels.hpp"
+#include "workstealing/channels/SchedulerChannels.hpp"
 
 namespace Workstealing {
+    extern std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
+
     namespace Scheduler {
-        //inline std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
 
 // Used to stop all schedulers
 extern std::atomic<bool> running;
