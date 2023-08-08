@@ -2,11 +2,6 @@ add_subdirectory(workstealing)
 add_subdirectory(skeletons)
 add_subdirectory(util)
 
-set(HPX_COMPONENTS
-    ${HPX_COMPONENTS} unordered
-    CACHE INTERNAL "list of HPX components"
-)
-
 add_hpx_library(YewPar
   SOURCES
   YewPar.hpp
