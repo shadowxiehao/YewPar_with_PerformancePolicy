@@ -56,6 +56,25 @@
       "rsyncCommandArgs": "-t --delete",
       "remoteCopyBuildOutput": false,
       "remoteCopySourcesMethod": "rsync"
+    },
+    {
+      "name": "gla02-Linux-GCC-Release",
+      "generator": "Unix Makefiles",
+      "configurationType": "Release",
+      "cmakeExecutable": "/cluster/gpg/YewParDeps/cmake-3.25.3-linux-x86_64/bin/cmake",
+      "remoteCopySourcesExclusionList": [ ".vs", ".git", "out" ],
+      "cmakeCommandArgs": "-DHPX_DIR=/cluster/gpg/YewParDeps/hpx1.8/lib/cmake/HPX -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=On -DBoost_INCLUDE_DIR=/cluster/gpg/YewParDeps/boost_1_79_0/include  -DYEWPAR_BUILD_BNB_APPS_MAXCLIQUE_NWORDS=16  -DYEWPAR_BUILD_BNB_APPS_KNAPSACK_NITEMS=220  -DYEWPAR_BUILD_APPS_SIP_NWORDS=128",
+      "buildCommandArgs": "-j 15",
+      "ctestCommandArgs": "-j 15",
+      "inheritEnvironments": [ "linux_x64" ],
+      "remoteMachineName": "${defaultRemoteMachineName}",
+      "remoteCMakeListsRoot": "$HOME/.vs/${projectDirName}/${workspaceHash}/src",
+      "remoteBuildRoot": "/cluster/gpg/hao/YewPar/build/",
+      "remoteInstallRoot": "/cluster/gpg/hao/YewPar/build/install/",
+      "remoteCopySources": true,
+      "rsyncCommandArgs": "-t --delete",
+      "remoteCopyBuildOutput": false,
+      "remoteCopySourcesMethod": "rsync"
     }
   ]
 }

@@ -8,15 +8,23 @@
 #include <hpx/iostream.hpp>
 #include <hpx/chrono.hpp>
 #include <hpx/numeric.hpp>
+#include <atomic>
 
 HPX_REGISTER_UNORDERED_MAP_DECLARATION(std::string, double)
 namespace Workstealing {
 
-    //extern hpx::unordered_map<unsigned, double> workRatesGlobalMap;
+    extern std::size_t thread_count; //hpx::get_os_thread_count
+    extern std::uint32_t local_id_num; //record hpx::get_locality_id
+    extern unsigned locality_count;
+
+    //global
+    extern std::shared_ptr<hpx::unordered_map<std::string, double>> globalChannelMap;
+
     extern std::string globalChannelMapName;
-    extern std::shared_ptr<hpx::unordered_map<std::string, double>> workRatesGlobalMap;
     extern std::string globalWorkRateAverageName;
 
+    extern std::string getWorkRateAverageNameById(std::uint32_t id);
+    
     //state enum
     enum class ThreadState {
         IDLE,
@@ -57,10 +65,9 @@ namespace Workstealing {
     }
 
      //Create a component to hold the channel
-    class SchedulerChannelHolder {
+    class SchedulerChannels {
 
     private:
-        std::size_t thread_count;
 
         struct Record {
             hpx::chrono::high_resolution_timer timer;
@@ -77,8 +84,8 @@ namespace Workstealing {
         std::vector<double> workRateVector;
 
     public:
-        //SchedulerChannelHolder()=default;
-        SchedulerChannelHolder()=default;
+        //SchedulerChannels()=default;
+        SchedulerChannels()=default;
         void init();
         unsigned getSize() const;
         ThreadState getState(unsigned id) const;
@@ -88,28 +95,29 @@ namespace Workstealing {
         double getWorkRateAverage();
 
         void setState(unsigned id,ThreadState threadState);
+        
     };
 
 
     
-//    extern SchedulerChannelHolder schedulerChannelHolder;
+//    extern SchedulerChannels schedulerChannelHolder;
 
     //channels
     //extern hpx::unordered_map<unsigned, ThreadState> threadStateMap;
 
     // Create a component to hold the channel
-    //class SchedulerChannelHolder : public hpx::components::component_base<SchedulerChannelHolder> {
-    //class SchedulerChannelHolder {
+    //class SchedulerChannels : public hpx::components::component_base<SchedulerChannels> {
+    //class SchedulerChannels {
 
     //private:
     //    hpx::mutex local_mutex;
     //    unsigned local_id_num;
 
     //public:
-        //SchedulerChannelHolder()=default;
-        //SchedulerChannelHolder();
+        //SchedulerChannels()=default;
+        //SchedulerChannels();
 
-        //SchedulerChannelHolder(hpx::lcos::channel<int> c);
+        //SchedulerChannels(hpx::lcos::channel<int> c);
 
         //hpx::lcos::channel<int> c_;
         //std::unordered_map<unsigned, ThreadState> threadStateMap;
@@ -117,18 +125,18 @@ namespace Workstealing {
         //void initChannels();
 
         //ThreadState getChannelForAction();
-        ////HPX_DEFINE_COMPONENT_ACTION(SchedulerChannelHolder, getChannel);
-        //HPX_DEFINE_COMPONENT_DIRECT_ACTION(SchedulerChannelHolder, getChannelForAction, getChannelAction);
+        ////HPX_DEFINE_COMPONENT_ACTION(SchedulerChannels, getChannel);
+        //HPX_DEFINE_COMPONENT_DIRECT_ACTION(SchedulerChannels, getChannelForAction, getChannelAction);
         //static ThreadState getChannel(hpx::id_type id);
 
         //void setChannelForAction(int num,ThreadState threadState);
-        //HPX_DEFINE_COMPONENT_DIRECT_ACTION(SchedulerChannelHolder, setChannelForAction, setChannelAction);
+        //HPX_DEFINE_COMPONENT_DIRECT_ACTION(SchedulerChannels, setChannelForAction, setChannelAction);
         //static void setChannel(hpx::id_type id, int num, ThreadState threadState);
     //};
 
 }
 
-//HPX_REGISTER_ACTION_DECLARATION(Workstealing::SchedulerChannelHolder::getChannelAction, schedulerChannelHolder_getChannel_action);
-//HPX_REGISTER_ACTION_DECLARATION(Workstealing::SchedulerChannelHolder::setChannelAction, schedulerChannelHolder_setChannel_action);
+//HPX_REGISTER_ACTION_DECLARATION(Workstealing::SchedulerChannels::getChannelAction, schedulerChannelHolder_getChannel_action);
+//HPX_REGISTER_ACTION_DECLARATION(Workstealing::SchedulerChannels::setChannelAction, schedulerChannelHolder_setChannel_action);
 
 #endif // SCHEDULARCHANNELS_HPP

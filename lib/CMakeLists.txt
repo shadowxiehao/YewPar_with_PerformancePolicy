@@ -31,7 +31,7 @@ add_hpx_library(YewPar
   SearchManager
   DistSetOnceFlag
   iostreams
-  SchedulerChannels
+  #SchedulerChannels
   #add unordered is important for using unordered_map's .register_as, i dont know why they need to add these but tell us nothing in hpx doc
   unordered
 )

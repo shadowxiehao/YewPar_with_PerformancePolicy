@@ -17,52 +17,44 @@ namespace Workstealing
 
 	namespace Policies
 	{
-		//namespace PerformancePolicyPerf
-		//{
-		//	void registerPerformanceCounters();
-		//}
 
 		class PerformanceMonitor{
 
 		private:
 
 			//node id
-			hpx::id_type local_workpool;
-			std::vector<hpx::id_type> distributed_workpools;
+			hpx::id_type local_workpool = {};
+			std::vector<hpx::id_type> distributed_workpools = {};
 
 			//node info
             struct NodeInfo {
-                hpx::id_type id;
-                double cpuLoad;
-                
-                // Add other information here
+                hpx::id_type id = {};
+                double workRateAverage = {};
             };
-
-            hpx::mutex nodeInfoVectorMutex;
-            hpx::mutex refreshMutex;
 
             struct CompareNodeInfo {
                 bool operator()(const NodeInfo& a,
                                 const NodeInfo& b) const {
                 // Compare a and b here
-                // For example, sort by CPU load
-                return a.cpuLoad < b.cpuLoad;
+                return a.workRateAverage > b.workRateAverage;
                 }
             };
             
             std::vector<NodeInfo> nodeInfoVector;
+            std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
+
+            std::vector<hpx::id_type> sortedIds;  // To store sorted hpx::id_type
+            mutable hpx::mutex sortedIdsMutex;   // Mutex for sortedIds
+
 
             void addNodeInfo(const hpx::id_type& nodeId);
             std::vector<NodeInfo> getAllNodeInfo() {
-                std::unique_lock<hpx::mutex> l(nodeInfoVectorMutex);
+                std::unique_lock<hpx::mutex> l(refreshMutex);
                 return nodeInfoVector;
             }
-            void updateNodeCpuLoad(const hpx::id_type& nodeId, double load);
-            bool nodeExists(const hpx::id_type& nodeId);
-            hpx::id_type getTopId();
 
             //compute
-            void compareNode();
+            void refreshSortedIds();
 
             //init
 		    void generateNodeInfoVector();
@@ -70,7 +62,7 @@ namespace Workstealing
 
 
             //---get info---
-            hpx::execution::experimental::task_group infoTasks;
+            hpx::execution::experimental::task_group infoTaskGroup;
 
             hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::bound);
 
@@ -82,7 +74,9 @@ namespace Workstealing
 
             //refresh data
             bool refreshInfo();
+            mutable hpx::mutex refreshMutex;
             bool autoRefreshInfo();
+            void sendWorthStealToOther();
 
             void refreshCpuLoad();
             void refreshSchedularInfo();
@@ -90,27 +84,18 @@ namespace Workstealing
 
 		public:
             PerformanceMonitor() = default;
-			//PerformanceMonitor(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools);
-
-            //std::atomic<bool> performanceMonitorRunning;
 
             // init
-
-            void start() {
-                hpx::async(top_priority_executor, [&]() { autoRefreshInfo(); });
-            }
+            void start();
 
             void init(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools);
 
-            //void stop() {
-            //    performanceMonitorRunning.store(false);
-            //    //hpx::cout << "stopSchedulers2:" << hpx::get_locality_name()<< performanceMonitorRunning << std::endl;
-            //}
-
             //get ids
             hpx::id_type getTopWorthStealId();
-            
-            //channel
+            std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
+            hpx::id_type getTopIdWithoutLocal();
+            std::vector<hpx::id_type> getTopNIds(std::uint32_t n);
+            hpx::id_type getTopId();
         };
 
 	}

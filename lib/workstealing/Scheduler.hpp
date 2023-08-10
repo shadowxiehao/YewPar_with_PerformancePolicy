@@ -12,13 +12,12 @@
 #include "workstealing/channels/SchedulerChannels.hpp"
 
 namespace Workstealing {
-    extern std::shared_ptr<SchedulerChannelHolder> schedulerChannelHolder;
+    extern std::shared_ptr<SchedulerChannels> schedulerChannelHolder;
 
     namespace Scheduler {
 
 // Used to stop all schedulers
 extern std::atomic<bool> running;
-
 extern hpx::mutex mtx;
 extern hpx::condition_variable exit_cv;
 extern unsigned numRunningSchedulers;
