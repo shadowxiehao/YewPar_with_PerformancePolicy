@@ -18,9 +18,12 @@ namespace Workstealing {
 
 // Used to stop all schedulers
 extern std::atomic<bool> running;
+
 extern hpx::mutex mtx;
 extern hpx::condition_variable exit_cv;
 extern unsigned numRunningSchedulers;
+//used to lock others when scheduler running main tasks
+extern hpx::mutex schedulerTaskRunningMutex;
 
 // Implementation policy
 extern std::shared_ptr<Policy> local_policy;

@@ -23,28 +23,33 @@ namespace Workstealing
 		private:
 
 			//node id
-			hpx::id_type local_workpool = {};
-			std::vector<hpx::id_type> distributed_workpools = {};
+			/*hpx::id_type local_workpool = {};
+			std::vector<hpx::id_type> distributed_workpools = {};*/
+            std::vector<hpx::id_type> workpools;
 
 			//node info
             struct NodeInfo {
                 hpx::id_type id = {};
                 double workRateAverage = {};
+                unsigned tasksCount = 0;
             };
 
             struct CompareNodeInfo {
                 bool operator()(const NodeInfo& a,
                                 const NodeInfo& b) const {
                 // Compare a and b here
-                return a.workRateAverage > b.workRateAverage;
+                    double aResult = a.workRateAverage * a.tasksCount;
+                    double bResult = b.workRateAverage * b.tasksCount;
+
+                    return aResult > bResult;
                 }
             };
             
             std::vector<NodeInfo> nodeInfoVector;
             std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
 
-            std::vector<hpx::id_type> sortedIds;  // To store sorted hpx::id_type
-            mutable hpx::mutex sortedIdsMutex;   // Mutex for sortedIds
+            //std::vector<hpx::id_type> sortedIds;  // To store sorted hpx::id_type
+            //mutable hpx::mutex sortedIdsMutex;   // Mutex for sortedIds
 
 
             void addNodeInfo(const hpx::id_type& nodeId);
@@ -54,7 +59,7 @@ namespace Workstealing
             }
 
             //compute
-            void refreshSortedIds();
+            //void refreshSortedIds();
 
             //init
 		    void generateNodeInfoVector();
@@ -65,6 +70,7 @@ namespace Workstealing
             hpx::execution::experimental::task_group infoTaskGroup;
 
             hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::bound);
+            hpx::execution::parallel_executor normal_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::normal);
 
             void task_group_run_with_executor(hpx::execution::experimental::task_group& tg, hpx::execution::parallel_executor& executor, std::function<void()> func) {
                 tg.run([&](){
@@ -76,13 +82,13 @@ namespace Workstealing
             bool refreshInfo();
             mutable hpx::mutex refreshMutex;
             bool autoRefreshInfo();
-            void sendWorthStealToOther();
+            //void sendWorthStealToOther();
 
             void refreshCpuLoad();
             void refreshSchedularInfo();
+            void refreshPoolTasksCountInfo();
 
-
-		public:
+        public:
             PerformanceMonitor() = default;
 
             // init
@@ -92,10 +98,10 @@ namespace Workstealing
 
             //get ids
             hpx::id_type getTopWorthStealId();
-            std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
+            /*std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
             hpx::id_type getTopIdWithoutLocal();
             std::vector<hpx::id_type> getTopNIds(std::uint32_t n);
-            hpx::id_type getTopId();
+            hpx::id_type getTopId();*/
         };
 
 	}

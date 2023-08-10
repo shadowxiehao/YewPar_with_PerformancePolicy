@@ -16,6 +16,8 @@ namespace Workstealing {
         hpx::condition_variable exit_cv;
         unsigned numRunningSchedulers;
 
+        hpx::mutex schedulerTaskRunningMutex;
+
         // Implementation policy
         std::shared_ptr<Policy> local_policy;
 
@@ -54,9 +56,7 @@ void scheduler(hpx::function<void(), false> initialTask) {
       backoff.reset();
 
       schedulerChannelHolder->setState(local_id_num, ThreadState::WORKING);
-
       task();
-
       schedulerChannelHolder->setState(local_id_num, ThreadState::IDLE);
 
       /*std::string msg = hpx::get_locality_name() + "_" + "getRate_" + std::to_string(schedulerChannelHolder->getWorkRate(local_id_num))+"\n";
@@ -92,13 +92,11 @@ void startSchedulers(unsigned n) {
 
     //numRunningSchedulers = 0;
 
-    //// Find the channel using the symbolic name
-    //hpx::id_type id = hpx::find_from_basename("SchedulerChannel", 0).get();
+  //hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
+  //                                      hpx::threads::thread_stacksize::huge);
 
-    //hpx::cout << "startSchedulers:" << hpx::get_locality_name() << std::endl;
-
-  hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
-                                        hpx::threads::thread_stacksize::huge);
+  hpx::execution::parallel_executor exe(hpx::threads::thread_priority::high_recursive,
+      hpx::threads::thread_stacksize::huge);
 
   for (auto i = 0; i < n; ++i) {
     //exe.add(hpx::bind(&scheduler, nullptr));

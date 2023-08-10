@@ -24,6 +24,10 @@ namespace Workstealing {
     extern std::string globalWorkRateAverageName;
 
     extern std::string getWorkRateAverageNameById(std::uint32_t id);
+
+    inline double sigmoid(double x) {
+        return 1.0 / (1.0 + std::exp(-x));
+    }
     
     //state enum
     enum class ThreadState {

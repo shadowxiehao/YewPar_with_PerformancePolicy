@@ -1,0 +1,45 @@
+#include "DepthPool.hpp"
+
+namespace workstealing {
+
+    DepthPool::fnType DepthPool::steal() {
+        for (auto i = 0; i <= lowest; ++i) {
+            if (!pools.get_value(i).get().empty()) {
+                auto task = pools.get_value(i).get().front();
+                pools.get_value(i).get().pop();
+                return task;
+            }
+        }
+        return nullptr;
+    }
+
+    DepthPool::fnType DepthPool::getLocal() {
+        while (true) {
+            if (!pools.get_value(lowest).get().empty()) {
+                auto task = pools.get_value(lowest).get().front();
+                pools.get_value(lowest).get().pop();
+                return task;
+            }
+            if (lowest == 0) {
+                break;
+            }
+            --lowest;
+        }
+        return nullptr;
+    }
+
+    void DepthPool::addWork(DepthPool::fnType task, unsigned depth) {
+        if (depth >= max_depth) {
+            // Resizing a partitioned_vector is more involved than a std::vector.
+            // You might have to create a new one and copy data.
+            // For simplicity, let's assume max_depth is large enough for now.
+        }
+
+        pools.get_value(depth).get().push(task);
+
+        if (depth > lowest) {
+            lowest = depth;
+        }
+    }
+
+}

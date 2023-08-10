@@ -77,17 +77,23 @@ namespace Workstealing {
 
         hpx::function<void(), false> PerformancePolicy::getWork() {
 
-            std::unique_lock<mutex_t> l(mtx);
+            //std::unique_lock<mutex_t> l(mtx);
 
             hpx::distributed::function<void(hpx::id_type)> task;
             task = hpx::async<workstealing::DepthPool::getLocal_action>(local_workpool).get();
 
             if (task) {
-                PerformancePolicyPerf::perf_localSteals++;
+                {
+                    std::unique_lock<mutex_t> l(mtx);
+                    PerformancePolicyPerf::perf_localSteals++;
+                }
                 return hpx::bind(task, hpx::find_here());
             }
             else {
-                PerformancePolicyPerf::perf_failedLocalSteals++;
+                {
+                    std::unique_lock<mutex_t> l(mtx);
+                    PerformancePolicyPerf::perf_failedLocalSteals++;
+                }
             }
 
             if (!distributed_workpools.empty()) {
@@ -99,11 +105,17 @@ namespace Workstealing {
 
                 if (task) {
                     last_remote = victim;
-                    PerformancePolicyPerf::perf_distributedSteals++;
+                    {
+                        std::unique_lock<mutex_t> l(mtx);
+                        PerformancePolicyPerf::perf_distributedSteals++;
+                    }
                     return hpx::bind(task, hpx::find_here());
                 }
                 else {
-                    PerformancePolicyPerf::perf_failedDistributedSteals++;
+                    {
+                        std::unique_lock<mutex_t> l(mtx);
+                        PerformancePolicyPerf::perf_failedDistributedSteals++;
+                    }
                 }
             }
 
@@ -111,8 +123,10 @@ namespace Workstealing {
         }
 
         void PerformancePolicy::addwork(hpx::distributed::function<void(hpx::id_type)> task, unsigned depth) {
-            std::unique_lock<mutex_t> l(mtx);
-            PerformancePolicyPerf::perf_spawns++;
+            {
+                std::unique_lock<mutex_t> l(mtx);
+                PerformancePolicyPerf::perf_spawns++;
+            }
             hpx::apply<workstealing::DepthPool::addWork_action>(local_workpool, task, depth);
         }
 

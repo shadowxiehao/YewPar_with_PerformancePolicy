@@ -2,53 +2,73 @@
 
 namespace workstealing {
 
-DepthPool::fnType DepthPool::steal() {
-  DepthPool::fnType task;
+    DepthPool::fnType DepthPool::steal() {
+      DepthPool::fnType task;
 
-  for (auto i = 0; i <= lowest; ++i) {
-    if (!pools[i].empty()) {
-      auto task = pools[i].front();
-      pools[i].pop();
-      return task;
+      for (auto i = 0; i <= lowest; ++i) {
+        if (!pools[i].empty()) {
+          auto task = pools[i].front();
+          pools[i].pop();
+          --tasks_count;
+
+          return task;
+        }
+      }
+      return nullptr;
     }
-  }
-  return nullptr;
-}
 
-DepthPool::fnType DepthPool::getLocal() {
-  DepthPool::fnType task;
-  if (pools[lowest].empty()) {
-    return nullptr;
-  } else {
-    task = pools[lowest].front();
-    pools[lowest].pop();
-  }
+    DepthPool::fnType DepthPool::getLocal() {
+      DepthPool::fnType task;
+      //if (pools[lowest].empty()) {
+      //  return nullptr;
+      //} else {
+      //  task = pools[lowest].front();
+      //  pools[lowest].pop();
+      //}
+      //// Update lowest pointer if required
+      //while (lowest > 0) {
+      //  if (pools[lowest].empty()) {
+      //      --lowest;
+      //  } else {
+      //    break;
+      //  }
+      //}
+      //return task;
 
-  // Update lowest pointer if required
-  while (lowest > 0) {
-    if (pools[lowest].empty()) {
-        --lowest;
-    } else {
-      break;
+        while (true) {
+          if (!pools[lowest].empty()) {
+              task = pools[lowest].front();
+              pools[lowest].pop();
+              --tasks_count;
+              return task;
+          }
+          if (lowest == 0) {
+              break;
+          }
+          --lowest;
+        }
+        return nullptr;
+
     }
-  }
 
-  return task;
-}
+    void DepthPool::addWork(DepthPool::fnType task, unsigned depth) {
+      // Resize if we need to. We don't want this to happen too often, so we double it if we need to.
+      if (depth >= max_depth) {
+        max_depth = max_depth * 2;
+        pools.resize(max_depth);
+      }
 
-void DepthPool::addWork(DepthPool::fnType task, unsigned depth) {
-  // Resize if we need to. We don't want this to happen too often, so we double it if we need to.
-  if (depth >= max_depth) {
-    max_depth = max_depth * 2;
-    pools.resize(max_depth);
-  }
+      pools[depth].push(task);
+      ++tasks_count;
 
-  pools[depth].push(task);
+      if (depth > lowest) {
+        lowest = depth;
+      }
+    }
 
-  if (depth > lowest) {
-    lowest = depth;
-  }
-}
+    unsigned DepthPool::getTasksCount() {
+        return tasks_count;
+    }
 
 }
 
@@ -61,3 +81,5 @@ HPX_REGISTER_COMPONENT(DepthPool_type, DepthPool);
 HPX_REGISTER_ACTION(workstealing::DepthPool::getLocal_action, DepthPool_getLocal_action);
 HPX_REGISTER_ACTION(workstealing::DepthPool::steal_action, DepthPool_steal_action);
 HPX_REGISTER_ACTION(workstealing::DepthPool::addWork_action, DepthPool_addWork_action);
+
+HPX_REGISTER_ACTION(workstealing::DepthPool::getTasksCount_action, DepthPool_getTasksCount_action);

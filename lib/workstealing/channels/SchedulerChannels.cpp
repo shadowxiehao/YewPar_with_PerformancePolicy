@@ -35,10 +35,10 @@ namespace Workstealing {
 
         //set global map for data transferring
         if (0 == local_id_num) { //only one init, others connect
-            //std::size_t num_segments = 8;
-            //std::vector<hpx::id_type> locs = hpx::find_all_localities();
-            //auto layout = hpx::container_layout(num_segments, locs);
-            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(16);
+            std::vector<hpx::id_type> locs = hpx::find_all_localities();
+            std::size_t num_segments = locs.size();
+            auto layout = hpx::container_layout(num_segments, locs);
+            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(layout);
 
             const std::string localChannelMapNme = globalChannelMapName;
             //regist local global container
@@ -70,7 +70,14 @@ namespace Workstealing {
             recordVector[id].workTime = recordVector[id].timer.elapsed_nanoseconds();
             //use Exponential Weighted Moving Average, EWMA; but int64->double may lose some accuracy, just for speed.
             std::unique_lock lw(*workRateMutexs[id]);
-            workRateVector[id] = (static_cast<double>(recordVector[id].workTime) / static_cast<double>(recordVector[id].idleTime)) * 0.6 + workRateVector[id] * 0.4;
+            double workTime = static_cast<double>(recordVector[id].workTime);
+            double idleTime = static_cast<double>(recordVector[id].idleTime);
+
+            workRateVector[id] = sigmoid( 
+                (sigmoid((workTime / idleTime))*0.5 + sigmoid(workTime+idleTime)*0.5)* 0.65
+                + workRateVector[id] * 0.35 
+            );
+            //workRateVector[id] = workTime / idleTime;
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
         }else {

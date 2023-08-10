@@ -20,7 +20,7 @@
     //  "remoteCopySourcesMethod": "rsync"
     //},
     {
-      "name": "gla02-Linux-GCC-RelWithDebInfo",
+      "name": "gla-Linux-GCC-RelWithDebInfo",
       "generator": "Unix Makefiles",
       "configurationType": "RelWithDebInfo",
       "cmakeExecutable": "/cluster/gpg/YewParDeps/cmake-3.25.3-linux-x86_64/bin/cmake",
@@ -39,7 +39,7 @@
       "remoteCopySourcesMethod": "rsync"
     },
     {
-      "name": "gla02-Linux-GCC-Debug",
+      "name": "gla-Linux-GCC-Debug",
       "generator": "Unix Makefiles",
       "configurationType": "Debug",
       "cmakeExecutable": "/cluster/gpg/YewParDeps/cmake-3.25.3-linux-x86_64/bin/cmake",
@@ -58,7 +58,7 @@
       "remoteCopySourcesMethod": "rsync"
     },
     {
-      "name": "gla02-Linux-GCC-Release",
+      "name": "gla-Linux-GCC-Release",
       "generator": "Unix Makefiles",
       "configurationType": "Release",
       "cmakeExecutable": "/cluster/gpg/YewParDeps/cmake-3.25.3-linux-x86_64/bin/cmake",

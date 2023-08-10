@@ -22,6 +22,7 @@ class DepthPool : public hpx::components::locking_hook<
   // For quicker access
   unsigned lowest = 0;
   unsigned max_depth;
+  unsigned tasks_count = 0;
 
  public:
   DepthPool() {
@@ -36,11 +37,17 @@ class DepthPool : public hpx::components::locking_hook<
   HPX_DEFINE_COMPONENT_ACTION(DepthPool, steal);
   void addWork(fnType task, unsigned depth);
   HPX_DEFINE_COMPONENT_ACTION(DepthPool, addWork);
+
+  unsigned getTasksCount();
+  HPX_DEFINE_COMPONENT_ACTION(DepthPool, getTasksCount);
+
 };
 }
 
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::getLocal_action, DepthPool_getLocal_action);
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::steal_action, DepthPool_steal_action);
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::addWork_action, DepthPool_addWork_action);
+
+HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::getTasksCount_action, DepthPool_getTasksCount_action);
 
 #endif

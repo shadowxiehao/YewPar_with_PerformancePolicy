@@ -1,0 +1,36 @@
+#ifndef DEPTHPOOL_COMPONENT_HPP
+#define DEPTHPOOL_COMPONENT_HPP
+
+#include <queue>
+
+#include <hpx/hpx.hpp>
+#include <hpx/include/parallel_algorithm.hpp>
+#include <hpx/include/partitioned_vector.hpp>
+#include <hpx/include/unordered_map.hpp>
+
+namespace workstealing {
+
+    class DepthPool {
+    private:
+        using fnType = hpx::distributed::function<void(hpx::id_type)>;
+
+        hpx::partitioned_vector<std::queue<fnType>> pools;
+
+        // For quicker access
+        unsigned lowest = 0;
+        unsigned max_depth;
+
+    public:
+        DepthPool() {
+            // Size should be settable/dynamic.
+            max_depth = 5000;
+            pools = hpx::partitioned_vector<std::queue<fnType>>(max_depth);
+        }
+
+        fnType getLocal();
+        fnType steal();
+        void addWork(fnType task, unsigned depth);
+    };
+}
+
+#endif
