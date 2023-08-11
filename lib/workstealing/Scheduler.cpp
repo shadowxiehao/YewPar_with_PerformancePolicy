@@ -32,7 +32,7 @@ void scheduler(hpx::function<void(), false> initialTask) {
   unsigned local_id_num;
 
   {
-    std::unique_lock<hpx::mutex> l(mtx);
+    std::unique_lock l(mtx);
     local_id_num = numRunningSchedulers;
 
     ++numRunningSchedulers;
@@ -70,7 +70,7 @@ void scheduler(hpx::function<void(), false> initialTask) {
   schedulerChannelHolder->setState(local_id_num, ThreadState::Dead);
   {
     // Signal exit
-    std::unique_lock<hpx::mutex> l(mtx);
+    std::unique_lock l(mtx);
     numRunningSchedulers--;
     exit_cv.notify_all();
   }
@@ -81,7 +81,7 @@ void stopSchedulers() {
   running.store(false);
   {
     // Block until all schedulers have finished
-    std::unique_lock<hpx::mutex> l(mtx);
+    std::unique_lock l(mtx);
     while (numRunningSchedulers > 0) {
       exit_cv.wait(l);
     }

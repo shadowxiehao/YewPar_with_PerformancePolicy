@@ -43,8 +43,6 @@ namespace Workstealing {
             using mutex_t = hpx::mutex;
             mutex_t mtx;
 
-
-
         public:
             PerformancePolicy(hpx::id_type workpool);
             ~PerformancePolicy() = default;

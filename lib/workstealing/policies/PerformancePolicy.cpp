@@ -104,7 +104,6 @@ namespace Workstealing {
                 task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
 
                 if (task) {
-                    last_remote = victim;
                     {
                         std::unique_lock<mutex_t> l(mtx);
                         PerformancePolicyPerf::perf_distributedSteals++;
@@ -114,6 +113,7 @@ namespace Workstealing {
                 else {
                     {
                         std::unique_lock<mutex_t> l(mtx);
+                        performanceMonitor.refreshInfo();
                         PerformancePolicyPerf::perf_failedDistributedSteals++;
                     }
                 }

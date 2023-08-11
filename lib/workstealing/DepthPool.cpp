@@ -19,23 +19,24 @@ namespace workstealing {
 
     DepthPool::fnType DepthPool::getLocal() {
       DepthPool::fnType task;
-      //if (pools[lowest].empty()) {
-      //  return nullptr;
-      //} else {
-      //  task = pools[lowest].front();
-      //  pools[lowest].pop();
-      //}
-      //// Update lowest pointer if required
-      //while (lowest > 0) {
-      //  if (pools[lowest].empty()) {
-      //      --lowest;
-      //  } else {
-      //    break;
-      //  }
-      //}
-      //return task;
+      if (pools[lowest].empty()) {
+        return nullptr;
+      } else {
+        task = pools[lowest].front();
+        pools[lowest].pop();
+        --tasks_count;
+      }
+      // Update lowest pointer if required
+      while (lowest > 0) {
+        if (pools[lowest].empty()) {
+            --lowest;
+        } else {
+          break;
+        }
+      }
+      return task;
 
-        while (true) {
+        /*while (true) {
           if (!pools[lowest].empty()) {
               task = pools[lowest].front();
               pools[lowest].pop();
@@ -47,7 +48,7 @@ namespace workstealing {
           }
           --lowest;
         }
-        return nullptr;
+        return nullptr;*/
 
     }
 

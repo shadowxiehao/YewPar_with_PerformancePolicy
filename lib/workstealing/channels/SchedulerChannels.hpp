@@ -81,10 +81,10 @@ namespace Workstealing {
         };
 
         //std::vector<std::unique_ptr<hpx::shared_mutex>> recordMutexs;
-        std::vector<std::unique_ptr<hpx::mutex>> recordMutexs;
+        std::vector<std::unique_ptr<hpx::spinlock>> recordMutexs;
         std::vector<Record> recordVector;
 
-        std::vector<std::unique_ptr<hpx::mutex>> workRateMutexs;
+        std::vector<std::unique_ptr<hpx::spinlock>> workRateMutexs;
         std::vector<double> workRateVector;
 
     public:

@@ -22,8 +22,8 @@ namespace Workstealing {
         recordMutexs.reserve(thread_count);
         workRateMutexs.reserve(thread_count);
         for (unsigned i = 0; i < thread_count; ++i) {
-            recordMutexs.push_back(std::make_unique<hpx::mutex>());
-            workRateMutexs.push_back(std::make_unique<hpx::mutex>());
+            recordMutexs.push_back(std::make_unique<hpx::spinlock>());
+            workRateMutexs.push_back(std::make_unique<hpx::spinlock>());
         }
         
         recordVector.assign(thread_count, Record());
@@ -109,16 +109,16 @@ namespace Workstealing {
     double SchedulerChannels::getWorkRateSum() {
         
         double totalWorkRate = 0.0;
-        hpx::mutex dm;
-        hpx::experimental::for_loop(hpx::execution::par_unseq,
+        //hpx::spinlock dm;
+        /*hpx::experimental::for_loop(hpx::execution::par_unseq,
                  0, recordVector.size(),
                 [&](unsigned i) {
                     std::unique_lock ld(dm);
                     totalWorkRate += getWorkRate(i);
-                });
-        /*for (unsigned i = 0; i < recordVector.size(); ++i) {
+                });*/
+        for (unsigned i = 0; i < recordVector.size(); ++i) {
             totalWorkRate += getWorkRate(i);
-        }*/
+        }
 
         return totalWorkRate;
     }

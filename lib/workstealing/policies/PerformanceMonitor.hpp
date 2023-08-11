@@ -48,13 +48,12 @@ namespace Workstealing
             std::vector<NodeInfo> nodeInfoVector;
             std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
 
-            //std::vector<hpx::id_type> sortedIds;  // To store sorted hpx::id_type
-            //mutable hpx::mutex sortedIdsMutex;   // Mutex for sortedIds
-
+            hpx::id_type top_id_type;
+            hpx::mutex top_id_type_mutex_;
 
             void addNodeInfo(const hpx::id_type& nodeId);
             std::vector<NodeInfo> getAllNodeInfo() {
-                std::unique_lock<hpx::mutex> l(refreshMutex);
+                std::unique_lock l(refreshMutex);
                 return nodeInfoVector;
             }
 
@@ -79,9 +78,9 @@ namespace Workstealing
             }
 
             //refresh data
-            bool refreshInfo();
             mutable hpx::mutex refreshMutex;
             bool autoRefreshInfo();
+            void refreshTopWorthStealId();
             //void sendWorthStealToOther();
 
             void refreshCpuLoad();
@@ -97,6 +96,7 @@ namespace Workstealing
             void init(hpx::id_type& local_workpool, std::vector<hpx::id_type>& distributed_workpools);
 
             //get ids
+            bool refreshInfo();
             hpx::id_type getTopWorthStealId();
             /*std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
             hpx::id_type getTopIdWithoutLocal();
