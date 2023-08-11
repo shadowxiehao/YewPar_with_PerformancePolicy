@@ -128,9 +128,13 @@ namespace Workstealing {
         }
 
         bool PerformanceMonitor::refreshInfo() {
-
-            std::unique_lock l(refreshMutex);
-
+            {
+                std::unique_lock l(refreshMutex);
+                if(refreshRunning==true) {
+                    return false;
+                }
+                refreshRunning = true;
+            }
             /*task_group_run_with_executor(infoTaskGroup,top_priority_executor,[&](){refreshCpuLoad();});
             task_group_run_with_executor(infoTaskGroup, top_priority_executor, [&]() {refreshSchedularInfo(); });*/
 
@@ -141,6 +145,10 @@ namespace Workstealing {
             infoTaskGroup.wait();
             refreshTopWorthStealId();
             //sendWorthStealToOther();
+            {
+                std::unique_lock l(refreshMutex);
+                refreshRunning = false;
+            }
 
             return true;
         }
@@ -154,7 +162,7 @@ namespace Workstealing {
                 //hpx::async(top_priority_executor,[&](){refreshInfo();});
                 refreshInfo();
 
-                hpx::this_thread::sleep_for(std::chrono::microseconds(100));
+                hpx::this_thread::sleep_for(std::chrono::milliseconds(200));
             }
 
             return true;
@@ -264,7 +272,6 @@ namespace Workstealing {
                     top_id_type = result_id_type;
 
                     auto id_num = hpx::naming::get_locality_id_from_id(result_id_type);
-                    //std::unique_lock ln(*nodeInfoVectorMutexs[id_num]);
                     std::string message =
                         hpx::get_locality_name()
                         + "return:" + std::to_string(id_num)

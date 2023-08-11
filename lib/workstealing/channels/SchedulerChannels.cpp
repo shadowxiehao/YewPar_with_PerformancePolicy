@@ -36,9 +36,9 @@ namespace Workstealing {
         //set global map for data transferring
         if (0 == local_id_num) { //only one init, others connect
             std::vector<hpx::id_type> locs = hpx::find_all_localities();
-            std::size_t num_segments = locs.size();
+            std::size_t num_segments = locs.size() / 4 + 1;
             auto layout = hpx::container_layout(num_segments, locs);
-            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(layout);
+            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(4,layout);
 
             const std::string localChannelMapNme = globalChannelMapName;
             //regist local global container
@@ -62,22 +62,30 @@ namespace Workstealing {
         
         if(recordVector[id].threadState == ThreadState::IDLE && threadState == ThreadState::WORKING) {
             //if idle->work 1.record idle time 2.restart timer 3.set ThreadState->work
-            recordVector[id].idleTime = recordVector[id].timer.elapsed_nanoseconds();
+            recordVector[id].idleTime = recordVector[id].timer.elapsed_microseconds();
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
         }else if(recordVector[id].threadState == ThreadState::WORKING && threadState == ThreadState::IDLE){
             //if work->idle 1.record work time 2.calculate the working rate 3.restart timer 4. set ThreadState->idle
-            recordVector[id].workTime = recordVector[id].timer.elapsed_nanoseconds();
+            recordVector[id].workTime = recordVector[id].timer.elapsed_microseconds();
             //use Exponential Weighted Moving Average, EWMA; but int64->double may lose some accuracy, just for speed.
             std::unique_lock lw(*workRateMutexs[id]);
             double workTime = static_cast<double>(recordVector[id].workTime);
             double idleTime = static_cast<double>(recordVector[id].idleTime);
 
-            workRateVector[id] = sigmoid( 
+            /*workRateVector[id] = sigmoid( 
                 (sigmoid((workTime / idleTime))*0.5 + sigmoid(workTime+idleTime)*0.5)* 0.65
                 + workRateVector[id] * 0.35 
-            );
-            //workRateVector[id] = workTime / idleTime;
+            );*/
+            
+            workRateVector[id] = 
+                (workTime / idleTime) * (workTime + idleTime) /1000000 * 0.65
+                + workRateVector[id] * 0.35;
+
+            /*workRateVector[id] =
+                workTime / 10000 * 0.7
+                + workRateVector[id] * 0.3;*/
+
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
         }else {

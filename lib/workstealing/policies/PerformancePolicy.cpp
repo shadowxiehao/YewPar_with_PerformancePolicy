@@ -97,9 +97,12 @@ namespace Workstealing {
             }
 
             if (!distributed_workpools.empty()) {
-
-                // Use a load balancing algorithm to select a node to steal from
-                auto victim = performanceMonitor.getTopWorthStealId();
+                hpx::id_type victim;
+                {
+                    std::unique_lock<mutex_t> l(refreshMtx);
+                    // Use a load balancing algorithm to select a node to steal from
+                    victim = performanceMonitor.getTopWorthStealId();
+                }
 
                 task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
 
@@ -112,9 +115,26 @@ namespace Workstealing {
                 }
                 else {
                     {
-                        std::unique_lock<mutex_t> l(mtx);
-                        performanceMonitor.refreshInfo();
-                        PerformancePolicyPerf::perf_failedDistributedSteals++;
+                        bool refreshResult;
+                        {
+                            std::unique_lock<mutex_t> l(refreshMtx);
+                            refreshResult = performanceMonitor.refreshInfo();
+                        }
+                        if (refreshResult) {
+                            auto victim = performanceMonitor.getTopWorthStealId();
+                            task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
+                            if (task) {
+                                {
+                                    std::unique_lock<mutex_t> l(mtx);
+                                    PerformancePolicyPerf::perf_distributedSteals++;
+                                }
+                                return hpx::bind(task, hpx::find_here());
+                            }
+                            else {
+                                std::unique_lock<mutex_t> l(mtx);
+                                PerformancePolicyPerf::perf_failedDistributedSteals++;
+                            }
+                        }
                     }
                 }
             }

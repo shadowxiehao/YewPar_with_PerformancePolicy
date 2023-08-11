@@ -52,10 +52,6 @@ namespace Workstealing
             hpx::mutex top_id_type_mutex_;
 
             void addNodeInfo(const hpx::id_type& nodeId);
-            std::vector<NodeInfo> getAllNodeInfo() {
-                std::unique_lock l(refreshMutex);
-                return nodeInfoVector;
-            }
 
             //compute
             //void refreshSortedIds();
@@ -79,6 +75,7 @@ namespace Workstealing
 
             //refresh data
             mutable hpx::mutex refreshMutex;
+            bool refreshRunning = false;
             bool autoRefreshInfo();
             void refreshTopWorthStealId();
             //void sendWorthStealToOther();
