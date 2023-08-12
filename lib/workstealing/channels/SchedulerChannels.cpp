@@ -79,7 +79,7 @@ namespace Workstealing {
             );*/
             
             workRateVector[id] = 
-                (workTime / idleTime) * (workTime + idleTime) /1000000 * 0.65
+                (workTime / idleTime) * (workTime + idleTime) /100000 * 0.65
                 + workRateVector[id] * 0.35;
 
             /*workRateVector[id] =

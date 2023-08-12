@@ -30,7 +30,14 @@ namespace Workstealing {
             local_id_num = hpx::get_locality_id();
             locality_count = hpx::find_all_localities().size();
             thread_count = hpx::get_os_thread_count();
-
+            {
+                std::string message =
+                    hpx::get_locality_name()
+                    + "init_local_id_num:" + std::to_string(local_id_num)
+                    + "_locality_count:" + std::to_string(locality_count)
+                    + "_thread_count:" + std::to_string(thread_count) + "\n";
+                hpx::cout << message << std::flush;
+            }
             generateNodeInfoVector();
             generateChannels();
             start();
@@ -155,14 +162,27 @@ namespace Workstealing {
         
 
         bool PerformanceMonitor::autoRefreshInfo() {
-
+            const int maxRefreshWaitTime = 750;
+            const int minRefreshWaitTime = 0;
+            int refreshWaitTime = 0;
             //refresh automatically after a fixed interval
             while (Scheduler::running){
 
                 //hpx::async(top_priority_executor,[&](){refreshInfo();});
                 refreshInfo();
+                bool flag;
+                {
+                    std::unique_lock lrg(refreshGetTargetMutex);
+                    flag = refreshGetTarget;
+                }
+                if (flag == true) {
+                    refreshWaitTime = std::min(refreshWaitTime + 120, maxRefreshWaitTime);
+                }
+                else {
+                    refreshWaitTime = std::max(refreshWaitTime - 400, minRefreshWaitTime);
+                }
+                hpx::this_thread::sleep_for(std::chrono::milliseconds(refreshWaitTime));
 
-                hpx::this_thread::sleep_for(std::chrono::milliseconds(200));
             }
 
             return true;
@@ -199,33 +219,6 @@ namespace Workstealing {
 
         //====================== compute sequence ======================
 
-         // Call this function to update the sorted Ids
-        //void PerformanceMonitor::refreshSortedIds() {
-        //    std::vector<NodeInfo> tempVector(locality_count);
-
-        //    // Parallel copying of nodeInfoVector to tempVector
-        //    hpx::experimental::for_loop(hpx::execution::par_unseq,
-        //        0, locality_count,
-        //        [&](unsigned i) {
-        //            std::unique_lock<hpx::mutex> ln(*nodeInfoVectorMutexs[i]);
-        //            tempVector[i] = nodeInfoVector[i];
-        //        });
-        //    /*for(unsigned i=0;i< locality_count;++i) {
-        //        std::unique_lock<hpx::mutex> ln(*nodeInfoVectorMutexs[i]);
-        //        tempVector[i] = nodeInfoVector[i];
-        //    }*/
-
-        //    // Sorting tempVector
-        //    std::sort(tempVector.begin(), tempVector.end(), CompareNodeInfo());
-
-        //    // Updating sortedIds
-        //    {
-        //        std::unique_lock<hpx::mutex> ls(sortedIdsMutex);
-        //        for (std::uint32_t i = 0; i < tempVector.size(); i++) {
-        //            sortedIds[i] = tempVector[i].id;
-        //        }
-        //    }
-        //}
 
 
         //====================== get results ======================
@@ -271,16 +264,26 @@ namespace Workstealing {
                     std::unique_lock ld(top_id_type_mutex_);
                     top_id_type = result_id_type;
 
+                    {
+                        std::unique_lock lrg(refreshGetTargetMutex);
+                        refreshGetTarget = true;
+                    }
+
                     auto id_num = hpx::naming::get_locality_id_from_id(result_id_type);
                     std::string message =
                         hpx::get_locality_name()
-                        + "return:" + std::to_string(id_num)
+                        + "cacheSet:" + std::to_string(id_num)
                         + "_score:" + std::to_string(best_score)
                         + "_localWorkRate:" + std::to_string(local_workRate)
                         + "_taskCount::" + std::to_string(local_tasksCount) + "\n";
                     hpx::cout << message << std::flush;
                 }
             }else {
+                {
+                    std::unique_lock lrg(refreshGetTargetMutex);
+                    refreshGetTarget = false;
+                }
+
                 std::string message =
                     hpx::get_locality_name()
                     + "no_target_fount" + "\n";

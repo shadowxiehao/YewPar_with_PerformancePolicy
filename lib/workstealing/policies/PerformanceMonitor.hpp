@@ -76,6 +76,8 @@ namespace Workstealing
             //refresh data
             mutable hpx::mutex refreshMutex;
             bool refreshRunning = false;
+            mutable hpx::mutex refreshGetTargetMutex;
+            bool refreshGetTarget = false;
             bool autoRefreshInfo();
             void refreshTopWorthStealId();
             //void sendWorthStealToOther();
