@@ -59,12 +59,9 @@ void scheduler(hpx::function<void(), false> initialTask) {
       task();
       schedulerChannelHolder->setState(local_id_num, ThreadState::IDLE);
 
-      /*std::string msg = hpx::get_locality_name() + "_" + "getRate_" + std::to_string(schedulerChannelHolder->getWorkRate(local_id_num))+"\n";
-      hpx::cout << msg << std::flush;*/
-
     } else {
-      backoff.failed();
-      hpx::this_thread::suspend(backoff.getSleepTime());
+        backoff.failed();
+        hpx::this_thread::suspend(backoff.getSleepTime());
     }
   }
   schedulerChannelHolder->setState(local_id_num, ThreadState::Dead);

@@ -78,13 +78,13 @@ namespace Workstealing {
                 + workRateVector[id] * 0.35 
             );*/
             
-            workRateVector[id] = 
+            /*workRateVector[id] = 
                 (workTime / idleTime) * (workTime + idleTime) /100000 * 0.65
-                + workRateVector[id] * 0.35;
+                + workRateVector[id] * 0.35;*/
 
-            /*workRateVector[id] =
-                workTime / 10000 * 0.7
-                + workRateVector[id] * 0.3;*/
+            workRateVector[id] =
+                std::pow( workTime / (workTime+idleTime)*3 , 2) * 0.65
+                + workRateVector[id] * 0.35;
 
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;

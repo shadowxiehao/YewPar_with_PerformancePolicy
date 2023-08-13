@@ -48,8 +48,15 @@ namespace Workstealing
             std::vector<NodeInfo> nodeInfoVector;
             std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
 
-            hpx::id_type top_id_type;
-            hpx::mutex top_id_type_mutex_;
+            hpx::id_type top_steal_id_type;
+            hpx::spinlock top_steal_id_type_mutex_;
+
+            hpx::spinlock top_add_id_type_mutex_;
+            hpx::id_type top_add_id_type;
+            unsigned top_add_num = 0;
+
+            hpx::mutex refresh_top_id_state_mutex;
+            bool refresh_top_id_state = false;
 
             void addNodeInfo(const hpx::id_type& nodeId);
 
@@ -64,8 +71,7 @@ namespace Workstealing
             //---get info---
             hpx::execution::experimental::task_group infoTaskGroup;
 
-            hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::bound);
-            hpx::execution::parallel_executor normal_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::normal);
+            hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::high_recursive);
 
             void task_group_run_with_executor(hpx::execution::experimental::task_group& tg, hpx::execution::parallel_executor& executor, std::function<void()> func) {
                 tg.run([&](){
@@ -97,6 +103,8 @@ namespace Workstealing
             //get ids
             bool refreshInfo();
             hpx::id_type getTopWorthStealId();
+            void refreshTopWorthAddId();
+            hpx::id_type getTopWorthAddId();
             /*std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
             hpx::id_type getTopIdWithoutLocal();
             std::vector<hpx::id_type> getTopNIds(std::uint32_t n);

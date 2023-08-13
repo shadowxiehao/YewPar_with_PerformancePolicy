@@ -147,6 +147,10 @@ namespace Workstealing {
                 std::unique_lock<mutex_t> l(mtx);
                 PerformancePolicyPerf::perf_spawns++;
             }
+            //hpx::id_type target = performanceMonitor.getTopWorthAddId();
+            /*if(target!=local_workpool) {
+                performanceMonitor.refreshTopWorthAddId();
+            }*/
             hpx::apply<workstealing::DepthPool::addWork_action>(local_workpool, task, depth);
         }
 
