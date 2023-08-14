@@ -22,8 +22,8 @@ namespace Workstealing {
         recordMutexs.reserve(thread_count);
         workRateMutexs.reserve(thread_count);
         for (unsigned i = 0; i < thread_count; ++i) {
-            recordMutexs.push_back(std::make_unique<hpx::spinlock>());
-            workRateMutexs.push_back(std::make_unique<hpx::spinlock>());
+            recordMutexs.push_back(std::make_unique<hpx::mutex>());
+            workRateMutexs.push_back(std::make_unique<hpx::mutex>());
         }
         
         recordVector.assign(thread_count, Record());
@@ -36,24 +36,24 @@ namespace Workstealing {
         //set global map for data transferring
         if (0 == local_id_num) { //only one init, others connect
             std::vector<hpx::id_type> locs = hpx::find_all_localities();
-            std::size_t num_segments = locs.size() / 4 + 1;
+            std::size_t num_segments = locs.size();
             auto layout = hpx::container_layout(num_segments, locs);
-            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(4,layout);
+            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(num_segments,layout);
 
             const std::string localChannelMapNme = globalChannelMapName;
             //regist local global container
-            globalChannelMap->register_as(localChannelMapNme).get();
+            globalChannelMap->register_as(localChannelMapNme).wait();
             //set initial data
-            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), 0.0).wait();
+            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
 
             b.wait();
         }else {
             b.wait();
             globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>();
             //connect the global container
-            globalChannelMap->connect_to(globalChannelMapName).get();
+            globalChannelMap->connect_to(globalChannelMapName).wait();
             //set local initial data
-            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), 0.0).wait();
+            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
         }
     }
 
@@ -81,11 +81,14 @@ namespace Workstealing {
             /*workRateVector[id] = 
                 (workTime / idleTime) * (workTime + idleTime) /100000 * 0.65
                 + workRateVector[id] * 0.35;*/
-
+            //double workPercent = workTime / (workTime + idleTime);
+            //workRateVector[id] =
+            //    //std::pow( std::max(workPercent-0.13,0.0) *3 , 3) + std::max( std::log(workTime/100),1.0) * 0.65
+            //    std::pow(std::max(workPercent - 0.02, 0.0001) * 2, 3)* std::max(std::log(workTime / 100), 1.0) * 0.65
+            //    + workRateVector[id] * 0.35;
             workRateVector[id] =
-                std::pow( workTime / (workTime+idleTime)*3 , 2) * 0.65
+                (workTime / (workTime + idleTime))*10 * std::log(2 + (workTime + idleTime)) * 0.65
                 + workRateVector[id] * 0.35;
-
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
         }else {

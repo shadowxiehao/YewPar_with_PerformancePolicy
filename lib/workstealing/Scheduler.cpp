@@ -21,6 +21,9 @@ namespace Workstealing {
         // Implementation policy
         std::shared_ptr<Policy> local_policy;
 
+        hpx::execution::parallel_executor exe(hpx::threads::thread_priority::high_recursive,
+            hpx::threads::thread_stacksize::huge);
+
 void scheduler(hpx::function<void(), false> initialTask) {
   workstealing::ExponentialBackoff backoff;
 
@@ -92,8 +95,7 @@ void startSchedulers(unsigned n) {
   //hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
   //                                      hpx::threads::thread_stacksize::huge);
 
-  hpx::execution::parallel_executor exe(hpx::threads::thread_priority::high_recursive,
-      hpx::threads::thread_stacksize::huge);
+  
 
   for (auto i = 0; i < n; ++i) {
     //exe.add(hpx::bind(&scheduler, nullptr));

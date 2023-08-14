@@ -25,6 +25,8 @@ namespace Workstealing {
 
     extern std::string getWorkRateAverageNameById(std::uint32_t id);
 
+    constexpr double WORK_RATE_INIT_VALUE = 1.0;
+
     inline double sigmoid(double x) {
         return 1.0 / (1.0 + std::exp(-x));
     }
@@ -81,10 +83,10 @@ namespace Workstealing {
         };
 
         //std::vector<std::unique_ptr<hpx::shared_mutex>> recordMutexs;
-        std::vector<std::unique_ptr<hpx::spinlock>> recordMutexs;
+        std::vector<std::unique_ptr<hpx::mutex>> recordMutexs;
         std::vector<Record> recordVector;
 
-        std::vector<std::unique_ptr<hpx::spinlock>> workRateMutexs;
+        std::vector<std::unique_ptr<hpx::mutex>> workRateMutexs;
         std::vector<double> workRateVector;
 
     public:

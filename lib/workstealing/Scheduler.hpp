@@ -28,6 +28,8 @@ extern hpx::mutex schedulerTaskRunningMutex;
 // Implementation policy
 extern std::shared_ptr<Policy> local_policy;
 
+extern hpx::execution::parallel_executor exe;
+
 void stopSchedulers();
 HPX_DEFINE_PLAIN_ACTION(stopSchedulers, stopSchedulers_act);
 

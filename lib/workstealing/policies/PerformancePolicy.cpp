@@ -98,11 +98,11 @@ namespace Workstealing {
 
             if (!distributed_workpools.empty()) {
                 hpx::id_type victim;
-                {
-                    std::unique_lock<mutex_t> l(refreshMtx);
-                    // Use a load balancing algorithm to select a node to steal from
+                //{
+                //    std::unique_lock<mutex_t> l(refreshMtx);
+                //    // Use a load balancing algorithm to select a node to steal from
                     victim = performanceMonitor.getTopWorthStealId();
-                }
+                //}
 
                 task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
 
@@ -116,11 +116,11 @@ namespace Workstealing {
                 else {
                     {
                         bool refreshResult;
-                        {
-                            std::unique_lock<mutex_t> l(refreshMtx);
+                        //{
+                            //std::unique_lock<mutex_t> l(refreshMtx);
                             refreshResult = performanceMonitor.refreshInfo();
-                        }
-                        if (refreshResult) {
+                        //}
+                        //if (refreshResult) {
                             auto victim = performanceMonitor.getTopWorthStealId();
                             task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
                             if (task) {
@@ -134,7 +134,7 @@ namespace Workstealing {
                                 std::unique_lock<mutex_t> l(mtx);
                                 PerformancePolicyPerf::perf_failedDistributedSteals++;
                             }
-                        }
+                        //}
                     }
                 }
             }

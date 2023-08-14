@@ -4,7 +4,7 @@ namespace workstealing {
 
     DepthPool::fnType DepthPool::steal() {
       DepthPool::fnType task;
-
+      std::unique_lock lp(poolsMutex);
       for (auto i = 0; i <= lowest; ++i) {
         if (!pools[i].empty()) {
           auto task = pools[i].front();
@@ -19,6 +19,7 @@ namespace workstealing {
 
     DepthPool::fnType DepthPool::getLocal() {
       DepthPool::fnType task;
+      std::unique_lock lp(poolsMutex);
       if (pools[lowest].empty()) {
         return nullptr;
       } else {
@@ -35,26 +36,12 @@ namespace workstealing {
         }
       }
       return task;
-
-        /*while (true) {
-          if (!pools[lowest].empty()) {
-              task = pools[lowest].front();
-              pools[lowest].pop();
-              --tasks_count;
-              return task;
-          }
-          if (lowest == 0) {
-              break;
-          }
-          --lowest;
-        }
-        return nullptr;*/
-
     }
 
     void DepthPool::addWork(DepthPool::fnType task, unsigned depth) {
       // Resize if we need to. We don't want this to happen too often, so we double it if we need to.
-      if (depth >= max_depth) {
+        std::unique_lock lp(poolsMutex);
+        if (depth >= max_depth) {
         max_depth = max_depth * 2;
         pools.resize(max_depth);
       }

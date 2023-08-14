@@ -30,20 +30,11 @@ namespace Workstealing
 			//node info
             struct NodeInfo {
                 hpx::id_type id = {};
-                double workRateAverage = {};
+                double workRateAverage = WORK_RATE_INIT_VALUE;
                 unsigned tasksCount = 0;
+                double averageDelayTime = 1;
             };
-
-            struct CompareNodeInfo {
-                bool operator()(const NodeInfo& a,
-                                const NodeInfo& b) const {
-                // Compare a and b here
-                    double aResult = a.workRateAverage * a.tasksCount;
-                    double bResult = b.workRateAverage * b.tasksCount;
-
-                    return aResult > bResult;
-                }
-            };
+            hpx::chrono::high_resolution_timer timer;
             
             std::vector<NodeInfo> nodeInfoVector;
             std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
@@ -71,7 +62,7 @@ namespace Workstealing
             //---get info---
             hpx::execution::experimental::task_group infoTaskGroup;
 
-            hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::high_recursive);
+            //hpx::execution::parallel_executor top_priority_executor = hpx::execution::parallel_executor(hpx::threads::thread_priority::normal);
 
             void task_group_run_with_executor(hpx::execution::experimental::task_group& tg, hpx::execution::parallel_executor& executor, std::function<void()> func) {
                 tg.run([&](){
@@ -88,7 +79,7 @@ namespace Workstealing
             void refreshTopWorthStealId();
             //void sendWorthStealToOther();
 
-            void refreshCpuLoad();
+            void refreshNetworkTime();
             void refreshSchedularInfo();
             void refreshPoolTasksCountInfo();
 
@@ -105,6 +96,7 @@ namespace Workstealing
             hpx::id_type getTopWorthStealId();
             void refreshTopWorthAddId();
             hpx::id_type getTopWorthAddId();
+            static int randomIntFrom0ToN(int n1, int n2);
             /*std::vector<hpx::id_type> getTopNIdsWithoutLocal(std::uint32_t n);
             hpx::id_type getTopIdWithoutLocal();
             std::vector<hpx::id_type> getTopNIds(std::uint32_t n);

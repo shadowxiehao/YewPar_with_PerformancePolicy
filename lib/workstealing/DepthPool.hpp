@@ -5,25 +5,24 @@
 
 #include <hpx/include/components.hpp>
 #include <hpx/functional/function.hpp>
-
 namespace workstealing {
 
 // A workqueue that tracks tasks based on the depth in the tree they were created at.
 // This allows high vs low tasks to be distinguished while maintaining heuristics as much as possible.
 // In particular a sequential user should see tasks in the same order as a sequential thread
 // Currently only supports access by a single thread at a time as it's very non trivial to implement lock-free.
-class DepthPool : public hpx::components::locking_hook<
-  hpx::components::component_base<DepthPool>> {
+class DepthPool : public hpx::components::component_base<DepthPool> {
  private:
   using fnType = hpx::distributed::function<void(hpx::id_type)>;
 
   std::vector< std::queue<fnType> > pools;
+  hpx::mutex poolsMutex;
 
   // For quicker access
   unsigned lowest = 0;
   unsigned max_depth;
-  unsigned tasks_count = 0;
-
+  //unsigned tasks_count = 0;
+  std::atomic<unsigned> tasks_count=0;
  public:
   DepthPool() {
     // TODO: Size should be settable/dynamic. Currently the same as the default max_depth
@@ -47,7 +46,7 @@ class DepthPool : public hpx::components::locking_hook<
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::getLocal_action, DepthPool_getLocal_action);
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::steal_action, DepthPool_steal_action);
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::addWork_action, DepthPool_addWork_action);
-
 HPX_REGISTER_ACTION_DECLARATION(workstealing::DepthPool::getTasksCount_action, DepthPool_getTasksCount_action);
+
 
 #endif
