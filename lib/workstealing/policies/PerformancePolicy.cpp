@@ -80,7 +80,7 @@ namespace Workstealing {
             //std::unique_lock<mutex_t> l(mtx);
 
             hpx::distributed::function<void(hpx::id_type)> task;
-            task = hpx::async<workstealing::DepthPool::getLocal_action>(local_workpool).get();
+            task = getLocal_action(local_workpool);
 
             if (task) {
                 {
@@ -104,7 +104,7 @@ namespace Workstealing {
                     victim = performanceMonitor.getTopWorthStealId();
                 //}
 
-                task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
+                task = steal_action(victim);
 
                 if (task) {
                     {
@@ -122,7 +122,7 @@ namespace Workstealing {
                         //}
                         //if (refreshResult) {
                             auto victim = performanceMonitor.getTopWorthStealId();
-                            task = hpx::async<workstealing::DepthPool::steal_action>(victim).get();
+                            task = steal_action(victim);
                             if (task) {
                                 {
                                     std::unique_lock<mutex_t> l(mtx);
@@ -151,7 +151,8 @@ namespace Workstealing {
             /*if(target!=local_workpool) {
                 performanceMonitor.refreshTopWorthAddId();
             }*/
-            hpx::apply<workstealing::DepthPool::addWork_action>(local_workpool, task, depth);
+            //hpx::apply<workstealing::DepthPool::addWork_action>(local_workpool, task, depth);
+            addWork_action(local_workpool, task, depth);
         }
 
         void PerformancePolicy::registerDistributedDepthPools(std::vector<hpx::id_type> workpools) {

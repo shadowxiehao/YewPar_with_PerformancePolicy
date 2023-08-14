@@ -1,21 +1,23 @@
 #include "SchedulerChannels.hpp"
 #include <hpx/parallel/algorithms/for_loop.hpp>
 
+#include "workstealing/DepthPool.hpp"
+
 HPX_REGISTER_UNORDERED_MAP(std::string, double);
 
 namespace Workstealing {
-    std::shared_ptr<hpx::unordered_map<std::string, double>> globalChannelMap;
+    //std::shared_ptr<hpx::unordered_map<std::string, double>> globalChannelMap;
 
     std::size_t thread_count; //hpx::get_os_thread_count
     std::uint32_t local_id_num; //record hpx::get_locality_id
     unsigned locality_count;
 
-    std::string globalChannelMapName = "GlobalChannelMap";
-    std::string globalWorkRateAverageName = "workRateAverage/";
+    //std::string globalChannelMapName = "GlobalChannelMap";
+    //std::string globalWorkRateAverageName = "workRateAverage/";
 
-    std::string getWorkRateAverageNameById(std::uint32_t id) {
+    /*std::string getWorkRateAverageNameById(std::uint32_t id) {
         return globalWorkRateAverageName + std::to_string(id);
-    }
+    }*/
 
     void SchedulerChannels::init() {
         //recordMutexs.resize(thread_count);
@@ -25,36 +27,33 @@ namespace Workstealing {
             recordMutexs.push_back(std::make_unique<hpx::mutex>());
             workRateMutexs.push_back(std::make_unique<hpx::mutex>());
         }
-        
         recordVector.assign(thread_count, Record());
         workRateVector.assign(thread_count, 0.0);
 
         //==global==
         //global locker
-        hpx::distributed::barrier b("global_barrier", hpx::find_all_localities().size());
+        //hpx::distributed::barrier b("global_barrier", hpx::find_all_localities().size());
 
         //set global map for data transferring
-        if (0 == local_id_num) { //only one init, others connect
-            std::vector<hpx::id_type> locs = hpx::find_all_localities();
-            std::size_t num_segments = locs.size();
-            auto layout = hpx::container_layout(num_segments, locs);
-            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(num_segments,layout);
-
-            const std::string localChannelMapNme = globalChannelMapName;
-            //regist local global container
-            globalChannelMap->register_as(localChannelMapNme).wait();
-            //set initial data
-            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
-
-            b.wait();
-        }else {
-            b.wait();
-            globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>();
-            //connect the global container
-            globalChannelMap->connect_to(globalChannelMapName).wait();
-            //set local initial data
-            globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
-        }
+        //if (0 == local_id_num) { //only one init, others connect
+        //    std::vector<hpx::id_type> locs = hpx::find_all_localities();
+        //    std::size_t num_segments = locs.size();
+        //    auto layout = hpx::container_layout(num_segments, locs);
+        //    globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>(num_segments,layout);
+        //    const std::string localChannelMapNme = globalChannelMapName;
+        //    //regist local global container
+        //    globalChannelMap->register_as(localChannelMapNme).wait();
+        //    //set initial data
+        //    globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
+        //    b.wait();
+        //}else {
+        //    b.wait();
+        //    globalChannelMap = std::make_shared<hpx::unordered_map<std::string, double>>();
+        //    //connect the global container
+        //    globalChannelMap->connect_to(globalChannelMapName).wait();
+        //    //set local initial data
+        //    globalChannelMap->set_value(getWorkRateAverageNameById(local_id_num), WORK_RATE_INIT_VALUE).wait();
+        //}
     }
 
     void SchedulerChannels::setState(unsigned id, ThreadState threadState) {
@@ -87,10 +86,11 @@ namespace Workstealing {
             //    std::pow(std::max(workPercent - 0.02, 0.0001) * 2, 3)* std::max(std::log(workTime / 100), 1.0) * 0.65
             //    + workRateVector[id] * 0.35;
             workRateVector[id] =
-                (workTime / (workTime + idleTime))*10 * std::log(2 + (workTime + idleTime)) * 0.65
+                (workTime / (workTime + idleTime))* 10 * std::log(2.72 + (workTime + idleTime) * thread_count) * 0.65
                 + workRateVector[id] * 0.35;
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
+            //hpx::sync<workstealing::DepthPool::setWorkRate_action>(local_id_type, workRateVector[id]);
         }else {
             //set ThreadState
             recordVector[id].threadState = threadState;

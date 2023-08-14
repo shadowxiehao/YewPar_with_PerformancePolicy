@@ -44,6 +44,10 @@ namespace Workstealing {
             mutex_t mtx;
             mutex_t refreshMtx;
 
+            workstealing::DepthPool::getLocal_action getLocal_action;
+            workstealing::DepthPool::steal_action steal_action;
+            workstealing::DepthPool::addWork_action addWork_action;
+
         public:
             PerformancePolicy(hpx::id_type workpool);
             ~PerformancePolicy() = default;

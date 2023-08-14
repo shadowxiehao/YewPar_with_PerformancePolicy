@@ -16,14 +16,12 @@ namespace Workstealing {
     extern std::size_t thread_count; //hpx::get_os_thread_count
     extern std::uint32_t local_id_num; //record hpx::get_locality_id
     extern unsigned locality_count;
-
+    inline hpx::id_type local_id_type;
     //global
-    extern std::shared_ptr<hpx::unordered_map<std::string, double>> globalChannelMap;
-
+    /*extern std::shared_ptr<hpx::unordered_map<std::string, double>> globalChannelMap;
     extern std::string globalChannelMapName;
     extern std::string globalWorkRateAverageName;
-
-    extern std::string getWorkRateAverageNameById(std::uint32_t id);
+    extern std::string getWorkRateAverageNameById(std::uint32_t id);*/
 
     constexpr double WORK_RATE_INIT_VALUE = 1.0;
 

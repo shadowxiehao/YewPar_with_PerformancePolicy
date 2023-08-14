@@ -32,6 +32,6 @@ add_hpx_library(YewPar
   DistSetOnceFlag
   iostreams
   #SchedulerChannels
-  #add unordered is important for using unordered_map's .register_as, i dont know why they need to add these but tell us nothing in hpx doc
-  unordered
+  ##add unordered is important for using unordered_map's .register_as, i dont know why they need to add these but tell us nothing in hpx doc
+  #unordered
 )

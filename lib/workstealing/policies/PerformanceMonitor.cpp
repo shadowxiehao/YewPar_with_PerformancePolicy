@@ -27,10 +27,11 @@ namespace Workstealing {
                 workpools.push_back(distributed_workpools[i]);
             }
             local_id_num = hpx::get_locality_id();
+            local_id_type = local_workpool;
             locality_count = hpx::find_all_localities().size();
             thread_count = hpx::get_os_thread_count();
 
-            top_add_id_type = local_workpool;
+            //top_add_id_type = local_workpool;
             if (!distributed_workpools.empty()) {
                 top_steal_id_type = workpools[randomIntFrom0ToN(1,locality_count - 1)];
             }else {
@@ -91,22 +92,20 @@ namespace Workstealing {
 
         void PerformanceMonitor::refreshSchedularInfo() {
             // get local WorkRateAverage and send it to global
-            double local_workRateAverage = schedulerChannelHolder->getWorkRateAverage();
-            globalChannelMap->set_value( getWorkRateAverageNameById(local_id_num), local_workRateAverage).wait();
-
+            //double local_workRateAverage = schedulerChannelHolder->getWorkRateAverage();
+            //globalChannelMap->set_value( getWorkRateAverageNameById(local_id_num), local_workRateAverage).wait();
+            setWorkRate_action(local_id_type,schedulerChannelHolder->getWorkRateAverage());
             //get WorkRateAverage for local nodeInfoVector
             for (PerformanceMonitor::NodeInfo& nodeInfo : nodeInfoVector) {
                 hpx::id_type nodeID = nodeInfo.id;
                 unsigned id_num = hpx::naming::get_locality_id_from_id(nodeID);
                 std::unique_lock ln(*nodeInfoVectorMutexs[id_num]);
 
-                if(id_num == local_id_num) {
+                /*if(id_num == local_id_num) {
                     nodeInfo.workRateAverage = local_workRateAverage;
-                }else {
-                    nodeInfo.workRateAverage = globalChannelMap->get_value(
-                        getWorkRateAverageNameById(id_num)
-                    ).get();
-                }
+                }else {*/
+                    nodeInfo.workRateAverage = getWorkRate_action(nodeID);
+                //}
             }
             
         }
@@ -116,20 +115,19 @@ namespace Workstealing {
                 0, locality_count,
                 [&](unsigned i) {
                     std::unique_lock ln(*nodeInfoVectorMutexs[i]);
-                    nodeInfoVector[i].tasksCount = hpx::async<workstealing::DepthPool::getTasksCount_action>(nodeInfoVector[i].id).get();
                 });*/
             for(unsigned i=0;i<locality_count;++i){
                 timer.restart();
-                unsigned tasksCount = hpx::async<workstealing::DepthPool::getTasksCount_action>(nodeInfoVector[i].id).get();
+                unsigned tasksCount = getTasksCount_action(nodeInfoVector[i].id);
                 double delayTime = timer.elapsed_microseconds();
                 std::unique_lock ln(*nodeInfoVectorMutexs[i]);
                 nodeInfoVector[i].tasksCount = tasksCount;
                 //nodeInfoVector[i].averageDelayTime = delayTime/1000/2 * 0.5 + nodeInfoVector[i].averageDelayTime * 0.5;
-                nodeInfoVector[i].averageDelayTime = std::log(2 + delayTime *0.5 + nodeInfoVector[i].averageDelayTime ) * 0.5;
+                nodeInfoVector[i].averageDelayTime = std::log(2.72 + delayTime * thread_count) * 0.65 + nodeInfoVector[i].averageDelayTime * 0.35;
             }
         }
 
-        void PerformanceMonitor::refreshNetworkTime(){
+        //void PerformanceMonitor::refreshNetworkTime(){
         //    //// Retrieve load information from all nodes
         //    for (unsigned i = 0; i < locality_count;++i) {
         //        //get the idle threads percentages
@@ -144,7 +142,7 @@ namespace Workstealing {
         //        //hpx::cout << std::to_string(i) + "_time:" + std::to_string(nodeInfoVector[i].averageParcelArrival) + "\n" << std::flush;
         //        hpx::cout << std::to_string(i) + "_time:" + std::to_string(cs.size()) + "\n" << std::flush;
         //    }
-        }
+        //}
 
         bool PerformanceMonitor::refreshInfo() {
             /*{
@@ -227,7 +225,7 @@ namespace Workstealing {
 
             for(unsigned i=0;i<locality_count;++i) {
                 std::unique_lock ln(*nodeInfoVectorMutexs[i]);
-                double score = (nodeInfoVector[i].workRateAverage - nodeInfoVector[i].averageDelayTime) * nodeInfoVector[i].tasksCount ;
+                double score = std::max( (nodeInfoVector[i].workRateAverage - nodeInfoVector[i].averageDelayTime) , 0.001) * nodeInfoVector[i].tasksCount ;
                 if (score > best_score) {
                     best_score = score;
                     result_id_type = nodeInfoVector[i].id;

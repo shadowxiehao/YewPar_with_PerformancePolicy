@@ -12,6 +12,8 @@
 #include <atomic>
 #include <hpx/include/unordered_map.hpp>
 
+#include "workstealing/DepthPool.hpp"
+
 namespace Workstealing
 {
 
@@ -32,7 +34,7 @@ namespace Workstealing
                 hpx::id_type id = {};
                 double workRateAverage = WORK_RATE_INIT_VALUE;
                 unsigned tasksCount = 0;
-                double averageDelayTime = 1;
+                double averageDelayTime = 0;
             };
             hpx::chrono::high_resolution_timer timer;
             
@@ -40,14 +42,18 @@ namespace Workstealing
             std::vector<std::unique_ptr<hpx::mutex>> nodeInfoVectorMutexs;
 
             hpx::id_type top_steal_id_type;
-            hpx::spinlock top_steal_id_type_mutex_;
+            hpx::mutex top_steal_id_type_mutex_;
 
-            hpx::spinlock top_add_id_type_mutex_;
-            hpx::id_type top_add_id_type;
-            unsigned top_add_num = 0;
+            /*hpx::spinlock top_add_id_type_mutex_;
+            hpx::id_type top_add_id_type;*/
+            //unsigned top_add_num = 0;
 
             hpx::mutex refresh_top_id_state_mutex;
             bool refresh_top_id_state = false;
+
+            workstealing::DepthPool::getWorkRate_action getWorkRate_action;
+            workstealing::DepthPool::getTasksCount_action getTasksCount_action;
+            workstealing::DepthPool::setWorkRate_action setWorkRate_action;
 
             void addNodeInfo(const hpx::id_type& nodeId);
 

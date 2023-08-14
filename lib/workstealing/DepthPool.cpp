@@ -58,6 +58,14 @@ namespace workstealing {
         return tasks_count;
     }
 
+    double DepthPool::getWorkRate() {
+        return workRate;
+    }
+
+    void DepthPool::setWorkRate(double workRate) {
+        this->workRate = workRate;
+    }
+
 }
 
 HPX_REGISTER_COMPONENT_MODULE();
@@ -71,3 +79,5 @@ HPX_REGISTER_ACTION(workstealing::DepthPool::steal_action, DepthPool_steal_actio
 HPX_REGISTER_ACTION(workstealing::DepthPool::addWork_action, DepthPool_addWork_action);
 
 HPX_REGISTER_ACTION(workstealing::DepthPool::getTasksCount_action, DepthPool_getTasksCount_action);
+HPX_REGISTER_ACTION(workstealing::DepthPool::getWorkRate_action, DepthPool_getWorkRate_action);
+HPX_REGISTER_ACTION(workstealing::DepthPool::setWorkRate_action, DepthPool_setWorkRate_action);
