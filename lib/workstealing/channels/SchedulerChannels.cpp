@@ -22,13 +22,15 @@ namespace Workstealing {
     void SchedulerChannels::init() {
         //recordMutexs.resize(thread_count);
         recordMutexs.reserve(thread_count);
-        workRateMutexs.reserve(thread_count);
+        //workRateMutexs.reserve(thread_count);
+        workRateVector.reserve(thread_count);
         for (unsigned i = 0; i < thread_count; ++i) {
-            recordMutexs.push_back(std::make_unique<hpx::mutex>());
-            workRateMutexs.push_back(std::make_unique<hpx::mutex>());
+            recordMutexs.push_back(std::make_unique<hpx::spinlock>());
+            //workRateMutexs.push_back(std::make_unique<hpx::mutex>());
+            workRateVector.push_back(std::make_unique< std::atomic<double> >(WORK_RATE_INIT_VALUE));
         }
         recordVector.assign(thread_count, Record());
-        workRateVector.assign(thread_count, 0.0);
+        //workRateVector.assign(thread_count, WORK_RATE_INIT_VALUE);
 
         //==global==
         //global locker
@@ -68,7 +70,7 @@ namespace Workstealing {
             //if work->idle 1.record work time 2.calculate the working rate 3.restart timer 4. set ThreadState->idle
             recordVector[id].workTime = recordVector[id].timer.elapsed_microseconds();
             //use Exponential Weighted Moving Average, EWMA; but int64->double may lose some accuracy, just for speed.
-            std::unique_lock lw(*workRateMutexs[id]);
+            //std::unique_lock lw(*workRateMutexs[id]);
             double workTime = static_cast<double>(recordVector[id].workTime);
             double idleTime = static_cast<double>(recordVector[id].idleTime);
 
@@ -85,9 +87,9 @@ namespace Workstealing {
             //    //std::pow( std::max(workPercent-0.13,0.0) *3 , 3) + std::max( std::log(workTime/100),1.0) * 0.65
             //    std::pow(std::max(workPercent - 0.02, 0.0001) * 2, 3)* std::max(std::log(workTime / 100), 1.0) * 0.65
             //    + workRateVector[id] * 0.35;
-            workRateVector[id] =
+            *workRateVector[id] =
                 (workTime / (workTime + idleTime))* 10 * std::log(2.72 + (workTime + idleTime) * thread_count) * 0.65
-                + workRateVector[id] * 0.35;
+                + *workRateVector[id] * 0.35;
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
             //hpx::sync<workstealing::DepthPool::setWorkRate_action>(local_id_type, workRateVector[id]);
@@ -113,69 +115,20 @@ namespace Workstealing {
     }
 
     double SchedulerChannels::getWorkRate(unsigned id) const {
-        std::unique_lock lw(*workRateMutexs[id]);
-        return workRateVector[id];
+        //std::unique_lock lw(*workRateMutexs[id]);
+        return *workRateVector[id];
     }
 
-    double SchedulerChannels::getWorkRateSum() {
-        
+    double SchedulerChannels::getWorkRateSum() const {
         double totalWorkRate = 0.0;
-        //hpx::spinlock dm;
-        /*hpx::experimental::for_loop(hpx::execution::par_unseq,
-                 0, recordVector.size(),
-                [&](unsigned i) {
-                    std::unique_lock ld(dm);
-                    totalWorkRate += getWorkRate(i);
-                });*/
         for (unsigned i = 0; i < recordVector.size(); ++i) {
             totalWorkRate += getWorkRate(i);
         }
-
         return totalWorkRate;
     }
 
-    double SchedulerChannels::getWorkRateAverage() {
+    double SchedulerChannels::getWorkRateAverage() const {
         return getWorkRateSum() / static_cast<double>(thread_count);
     }
- 
-    //SchedulerChannels::SchedulerChannels(){
 
-    //    local_id_num = hpx::get_locality_id();
-    //    
-    //}
-
-    //void SchedulerChannels::initChannels() {
-    //    hpx::unordered_map<int, ThreadState> my_map = hpx::new_<hpx::unordered_map<int, ThreadState>>(hpx::find_here());
-    //    std::string global_name = "threadStateMap_" + std::to_string(local_id_num);
-    //    hpx::agas::register_name(global_name, my_map.get());
-    //}
-
-
-    //ThreadState SchedulerChannels::getChannelForAction() {
-    //    return threadStateMap.find(1)->second;
-    //}
-
-    //ThreadState SchedulerChannels::getChannel(hpx::id_type id) {
-    //    return hpx::async<Workstealing::SchedulerChannels::getChannelAction>(id).get();
-    //}
-
-    //void SchedulerChannels::setChannelForAction(int num,ThreadState threadState) {
-    //    {
-    //        hpx::cout << "setChannelForAction1:" << hpx::get_locality_name() << " :" << num << threadState << std::endl;
-    //        std::unique_lock<hpx::mutex> l(local_mutex);
-    //        threadStateMap.insert_or_assign(num, threadState);
-    //        hpx::cout << "setChannelForAction2:" << hpx::get_locality_name() << std::endl;
-    //    }
-    //}
-
-    //void SchedulerChannels::setChannel(hpx::id_type id, int num, ThreadState threadState) {
-    //    hpx::async<Workstealing::SchedulerChannels::setChannelAction>(id,num, threadState).wait();
-    //}
 }
-
-
-//HPX_REGISTER_CHANNEL(int);
-
-//HPX_REGISTER_COMPONENT(hpx::components::component<Workstealing::SchedulerChannels>, SchedulerChannels);
-//HPX_REGISTER_ACTION(Workstealing::SchedulerChannels::getChannelAction, SchedulerChannelHolder_getChannel_action);
-//HPX_REGISTER_ACTION(Workstealing::SchedulerChannels::setChannelAction, SchedulerChannelHolder_setChannel_action);

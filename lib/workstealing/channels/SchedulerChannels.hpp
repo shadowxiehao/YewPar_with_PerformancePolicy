@@ -81,11 +81,11 @@ namespace Workstealing {
         };
 
         //std::vector<std::unique_ptr<hpx::shared_mutex>> recordMutexs;
-        std::vector<std::unique_ptr<hpx::mutex>> recordMutexs;
+        std::vector<std::unique_ptr<hpx::spinlock>> recordMutexs;
         std::vector<Record> recordVector;
 
-        std::vector<std::unique_ptr<hpx::mutex>> workRateMutexs;
-        std::vector<double> workRateVector;
+        //std::vector<std::unique_ptr<hpx::mutex>> workRateMutexs;
+        std::vector< std::unique_ptr<std::atomic<double>>> workRateVector;
 
     public:
         //SchedulerChannels()=default;
@@ -95,8 +95,8 @@ namespace Workstealing {
         ThreadState getState(unsigned id) const;
         Record getRecord(unsigned id);
         double getWorkRate(unsigned id) const;
-        double getWorkRateSum();
-        double getWorkRateAverage();
+        double getWorkRateSum() const;
+        double getWorkRateAverage() const;
 
         void setState(unsigned id,ThreadState threadState);
         
