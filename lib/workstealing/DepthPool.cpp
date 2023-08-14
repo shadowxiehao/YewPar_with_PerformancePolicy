@@ -20,22 +20,20 @@ namespace workstealing {
     DepthPool::fnType DepthPool::getLocal() {
       DepthPool::fnType task;
       std::unique_lock lp(poolsMutex);
-      if (pools[lowest].empty()) {
-        return nullptr;
-      } else {
-        task = pools[lowest].front();
-        pools[lowest].pop();
-        --tasks_count;
+     
+      while (true) {
+          if (!pools[lowest].empty()) {
+              task = pools[lowest].front();
+              pools[lowest].pop();
+              --tasks_count;
+              return task;
+          }
+          if (lowest == 0) {
+              break;
+          }
+          --lowest;
       }
-      // Update lowest pointer if required
-      while (lowest > 0) {
-        if (pools[lowest].empty()) {
-            --lowest;
-        } else {
-          break;
-        }
-      }
-      return task;
+      return nullptr;
     }
 
     void DepthPool::addWork(DepthPool::fnType task, unsigned depth) {
@@ -65,7 +63,6 @@ namespace workstealing {
     void DepthPool::setWorkRate(double workRate) {
         this->workRate = workRate;
     }
-
 }
 
 HPX_REGISTER_COMPONENT_MODULE();

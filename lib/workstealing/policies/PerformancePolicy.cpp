@@ -4,7 +4,6 @@
 #include <hpx/modules/runtime_distributed.hpp>
 #include <hpx/performance_counters/manage_counter_type.hpp>
 
-#include <memory>
 #include <hpx/iostream.hpp>
 
 #include "util/util.hpp"
@@ -68,85 +67,49 @@ namespace Workstealing {
 
         PerformancePolicy::PerformancePolicy(hpx::id_type workpool) {
             local_workpool = workpool;
-            last_remote = hpx::find_here();
-
-            std::random_device rd;
-            randGenerator.seed(rd());
         }
 
 
         hpx::function<void(), false> PerformancePolicy::getWork() {
 
-            //std::unique_lock<mutex_t> l(mtx);
-
             hpx::distributed::function<void(hpx::id_type)> task;
             task = getLocal_action(local_workpool);
 
             if (task) {
-                {
-                    std::unique_lock<mutex_t> l(mtx);
-                    PerformancePolicyPerf::perf_localSteals++;
-                }
+                PerformancePolicyPerf::perf_localSteals++;
                 return hpx::bind(task, hpx::find_here());
             }
             else {
-                {
-                    std::unique_lock<mutex_t> l(mtx);
-                    PerformancePolicyPerf::perf_failedLocalSteals++;
-                }
+                PerformancePolicyPerf::perf_failedLocalSteals++;
             }
 
             if (!distributed_workpools.empty()) {
                 hpx::id_type victim;
-                //{
-                //    std::unique_lock<mutex_t> l(refreshMtx);
-                //    // Use a load balancing algorithm to select a node to steal from
                     victim = performanceMonitor.getTopWorthStealId();
-                //}
 
                 task = steal_action(victim);
 
                 if (task) {
-                    {
-                        std::unique_lock<mutex_t> l(mtx);
-                        PerformancePolicyPerf::perf_distributedSteals++;
-                    }
+                    PerformancePolicyPerf::perf_distributedSteals++;
                     return hpx::bind(task, hpx::find_here());
                 }
                 else {
-                    {
-                        bool refreshResult;
-                        //{
-                            //std::unique_lock<mutex_t> l(refreshMtx);
-                            refreshResult = performanceMonitor.refreshInfo();
-                        //}
-                        //if (refreshResult) {
-                            auto victim = performanceMonitor.getTopWorthStealId();
-                            task = steal_action(victim);
-                            if (task) {
-                                {
-                                    std::unique_lock<mutex_t> l(mtx);
-                                    PerformancePolicyPerf::perf_distributedSteals++;
-                                }
-                                return hpx::bind(task, hpx::find_here());
-                            }
-                            else {
-                                std::unique_lock<mutex_t> l(mtx);
-                                PerformancePolicyPerf::perf_failedDistributedSteals++;
-                            }
-                        //}
+                    performanceMonitor.refreshInfo();
+                    auto victim = performanceMonitor.getTopWorthStealId();
+                    task = steal_action(victim);
+                    if (task) {
+                        PerformancePolicyPerf::perf_distributedSteals++;
+                        return hpx::bind(task, hpx::find_here());
+                    }else {
+                        PerformancePolicyPerf::perf_failedDistributedSteals++;
                     }
                 }
             }
-
             return nullptr;
         }
 
         void PerformancePolicy::addwork(hpx::distributed::function<void(hpx::id_type)> task, unsigned depth) {
-            {
-                std::unique_lock<mutex_t> l(mtx);
-                PerformancePolicyPerf::perf_spawns++;
-            }
+            PerformancePolicyPerf::perf_spawns++;
             //hpx::id_type target = performanceMonitor.getTopWorthAddId();
             /*if(target!=local_workpool) {
                 performanceMonitor.refreshTopWorthAddId();
@@ -161,7 +124,6 @@ namespace Workstealing {
             distributed_workpools.erase(
                 std::remove_if(distributed_workpools.begin(), distributed_workpools.end(), YewPar::util::isColocated),
                 distributed_workpools.end());
-
         }
 
     }

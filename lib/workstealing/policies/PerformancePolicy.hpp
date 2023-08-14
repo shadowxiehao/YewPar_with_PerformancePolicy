@@ -2,16 +2,13 @@
 #define YEWPAR_POLICY_DEPTHPOOL_HPP
 
 #include "Policy.hpp"
-
 #include "PerformanceMonitor.hpp"
+#include "../DepthPool.hpp"
 
 #include <hpx/include/components.hpp>
 #include <hpx/modules/collectives.hpp>
 #include <hpx/naming_base/id_type.hpp>
 #include <hpx/runtime_distributed/find_all_localities.hpp>
-
-#include "../DepthPool.hpp"
-//#include "workstealing/channels/SchedulerChannels.hpp"
 
 #include <random>
 #include <vector>
@@ -28,21 +25,14 @@ namespace Workstealing {
             void registerPerformanceCounters();
         }
 
-
-        // TODO: Performance counters
         class PerformancePolicy : public Policy {
 
         private:
             hpx::id_type local_workpool;
-            hpx::id_type last_remote;
             std::vector<hpx::id_type> distributed_workpools;
-
-            // random number generator
-            std::mt19937 randGenerator;
 
             using mutex_t = hpx::mutex;
             mutex_t mtx;
-            mutex_t refreshMtx;
 
             workstealing::DepthPool::getLocal_action getLocal_action;
             workstealing::DepthPool::steal_action steal_action;
@@ -93,10 +83,6 @@ namespace Workstealing {
                       setPerformanceMonitor_act>::type {};
 
             static void initAllPerformanceMonitor() {
-                /*auto result = hpx::lcos::broadcast<setPerformanceMonitor_act>(
-                    hpx::find_all_localities());
-                result.wait();*/
-
                 hpx::wait_all(
                     hpx::lcos::broadcast<setPerformanceMonitor_act>(
                         hpx::find_all_localities()));
@@ -106,18 +92,14 @@ namespace Workstealing {
                 std::vector<hpx::future<void> > futs;
                 std::vector<hpx::id_type> pools;
                 for (auto const& loc : hpx::find_all_localities()) {
-                    //hpx::cout << "initPolicy:"<< hpx::naming::get_locality_id_from_id(loc)<< std::endl;
-
                     auto depthpool = hpx::new_<workstealing::DepthPool>(loc).get();
                     futs.push_back(hpx::async<setDepthPool_act>(loc, depthpool));
                     pools.push_back(depthpool);
                 }
                 hpx::wait_all(futs);
-
                 hpx::wait_all(hpx::lcos::broadcast<setDistributedDepthPools_act>(hpx::find_all_localities(), pools));
 
                 initAllPerformanceMonitor();
-
             }
         };
 

@@ -8,15 +8,12 @@ namespace Workstealing {
 
     namespace Scheduler {
 
-
         // Used to stop all schedulers
         std::atomic<bool> running(true);
 
         hpx::mutex mtx;
         hpx::condition_variable exit_cv;
         unsigned numRunningSchedulers;
-
-        hpx::mutex schedulerTaskRunningMutex;
 
         // Implementation policy
         std::shared_ptr<Policy> local_policy;
@@ -90,15 +87,7 @@ void stopSchedulers() {
 
 void startSchedulers(unsigned n) {
 
-    //numRunningSchedulers = 0;
-
-  //hpx::execution::parallel_executor exe(hpx::threads::thread_priority::critical,
-  //                                      hpx::threads::thread_stacksize::huge);
-
-  
-
   for (auto i = 0; i < n; ++i) {
-    //exe.add(hpx::bind(&scheduler, nullptr));
     hpx::async(exe, &scheduler, nullptr);
   }
 }
