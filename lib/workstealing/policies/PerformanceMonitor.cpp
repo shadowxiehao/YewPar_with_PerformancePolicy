@@ -135,7 +135,7 @@ namespace Workstealing {
             double local_averageParcelArrival = 0.0;
 
             for (unsigned i = 0; i < locality_count; ++i) {
-                double score = std::max((nodeInfoVector[i]->workRateAverage - nodeInfoVector[i]->averageDelayTime), 0.0001) * nodeInfoVector[i]->tasksCount;
+                double score = std::max((nodeInfoVector[i]->workRateAverage + 1.0/nodeInfoVector[i]->averageDelayTime), 0.0001) * nodeInfoVector[i]->tasksCount;
                 if (score > best_score) {
                     best_score = score;
                     result_id_type_num = i;
