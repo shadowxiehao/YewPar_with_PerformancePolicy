@@ -34,7 +34,7 @@ namespace Workstealing {
             double idleTime = static_cast<double>(recordVector[id].idleTime);
             
             *workRateVector[id] =
-                std::log(2.72 + (workTime / (workTime + idleTime))) * std::log(2.72 + (workTime + idleTime) * thread_count) * 0.65
+                std::log(2.72 + (workTime / (workTime + idleTime))) * std::log(2.72 + (workTime + idleTime) ) * 0.65
                 + *workRateVector[id] * 0.35;
             recordVector[id].timer.restart();
             recordVector[id].threadState = threadState;
