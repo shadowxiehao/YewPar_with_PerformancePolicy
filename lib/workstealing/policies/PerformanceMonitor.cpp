@@ -129,13 +129,13 @@ namespace Workstealing {
         void PerformanceMonitor::refreshTopWorthStealId() {
 
             unsigned result_id_type_num = top_steal_id_num;
-            double best_score = 0.0;
+            double best_score = std::numeric_limits<double>::min();
             double local_workRate = 0.0;
             unsigned local_tasksCount = 0;
             double local_averageParcelArrival = 0.0;
 
             for (unsigned i = 0; i < locality_count; ++i) {
-                double score = std::max((nodeInfoVector[i]->workRateAverage + 1.0/nodeInfoVector[i]->averageDelayTime), 0.0001) * nodeInfoVector[i]->tasksCount;
+                double score = std::max(static_cast<double>(nodeInfoVector[i]->workRateAverage), 0.0001) * nodeInfoVector[i]->tasksCount - nodeInfoVector[i]->averageDelayTime;
                 if (score > best_score) {
                     best_score = score;
                     result_id_type_num = i;
@@ -144,7 +144,7 @@ namespace Workstealing {
                     local_averageParcelArrival = nodeInfoVector[i]->averageDelayTime;
                 }
             }
-            if (best_score > 0.000) {
+            if (best_score > std::numeric_limits<double>::min()) {
                 {
                     top_steal_id_num = result_id_type_num;
 
