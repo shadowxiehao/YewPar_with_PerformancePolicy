@@ -144,7 +144,7 @@ namespace Workstealing {
                     local_averageParcelArrival = nodeInfoVector[i]->averageDelayTime;
                 }
             }
-            if (best_score > std::numeric_limits<double>::min()) {
+            if (best_score > 0) {
                 {
                     top_steal_id_num = result_id_type_num;
 
