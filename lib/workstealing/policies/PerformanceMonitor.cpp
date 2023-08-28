@@ -30,14 +30,14 @@ namespace Workstealing {
 
             top_steal_id_num = randomIntFrom0ToN(0, locality_count - 1);
             
-            {
+            /*{
                 std::string message =
                     hpx::get_locality_name()
                     + "init_local_id_num:" + std::to_string(local_id_num)
                     + "_locality_count:" + std::to_string(locality_count)
                     + "_thread_count:" + std::to_string(thread_count) + "\n";
                 hpx::cout << message << std::flush;
-            }
+            }*/
             generateNodeInfoVector();
             generateChannels();
             start();
@@ -130,18 +130,18 @@ namespace Workstealing {
 
             unsigned result_id_type_num = top_steal_id_num;
             double best_score = std::numeric_limits<double>::min();
-            double local_workRate = 0.0;
+            /*double local_workRate = 0.0;
             unsigned local_tasksCount = 0;
-            double local_averageParcelArrival = 0.0;
+            double local_averageParcelArrival = 0.0;*/
 
             for (unsigned i = 0; i < locality_count; ++i) {
                 double score = std::max(static_cast<double>(nodeInfoVector[i]->workRateAverage), 0.0001) * nodeInfoVector[i]->tasksCount - nodeInfoVector[i]->averageDelayTime;
                 if (score > best_score) {
                     best_score = score;
                     result_id_type_num = i;
-                    local_workRate = nodeInfoVector[i]->workRateAverage;
+                    /*local_workRate = nodeInfoVector[i]->workRateAverage;
                     local_tasksCount = nodeInfoVector[i]->tasksCount;
-                    local_averageParcelArrival = nodeInfoVector[i]->averageDelayTime;
+                    local_averageParcelArrival = nodeInfoVector[i]->averageDelayTime;*/
                 }
             }
             if (best_score > 0) {
@@ -150,14 +150,14 @@ namespace Workstealing {
 
                     refreshGetTarget = true;
 
-                    std::string message =
+                    /*std::string message =
                         hpx::get_locality_name()
                         + "stealCacheSet:" + std::to_string(top_steal_id_num)
                         + "_score:" + std::to_string(best_score)
                         + "_localWorkRate:" + std::to_string(local_workRate)
                         + "_averageParcelArrival:" + std::to_string(local_averageParcelArrival)
                         + "_taskCount::" + std::to_string(local_tasksCount) + "\n";
-                    hpx::cout << message << std::flush;
+                    hpx::cout << message << std::flush;*/
                 }
             }
             else {
@@ -165,10 +165,10 @@ namespace Workstealing {
 
                 refreshGetTarget = false;
 
-                std::string message =
+                /*std::string message =
                     hpx::get_locality_name()
                     + "steal_no_target_fount" + "\n";
-                hpx::cout << message << std::flush;
+                hpx::cout << message << std::flush;*/
             }
         }
 
