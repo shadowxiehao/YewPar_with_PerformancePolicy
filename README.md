@@ -63,11 +63,16 @@ example commands of NS-hivert app:
 run in one server node:
 
 ```bash
-{path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you have}
+{path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you want to use}
 ```
 
 run in cluster:
 
 ```bash
-mpiexec.openmpi -n {number of nodes you have} --host {nodes' names, use comma apart} {path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you have per node}
+mpiexec.openmpi -n {number of nodes you have} --host {nodes' names, use comma apart} {path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you want to use per node}
+```
+
+some test data can be found in the test folder, you can use commands like
+```bash
+{path to the app}/maxclique-16 -f {path to data}/brock800_2.clq --skeleton depthbounded -d 2 --hpx:threads {cores you want to use}
 ```
