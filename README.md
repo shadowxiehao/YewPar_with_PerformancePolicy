@@ -69,7 +69,7 @@ run in one server node:
 run in cluster:
 
 ```bash
-mpiexec.openmpi -n {number of nodes you have} --host {nodes' names, use comma apart} {path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you want to use per node}
+mpiexec.openmpi -n {number of nodes you have} --host {nodes names, use comma apart} {path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you want to use per node}
 ```
 
 some test data can be found in the test folder, you can use commands like
