@@ -1,99 +1,73 @@
-# YewPar
+# YewPar_with_PerformancePolicy
 
-A Collection of High Performance Parallel Skeletons for Tree Search Problems
+This project is based on the YewPar(https://github.com/BlairArchibald/YewPar) which is a Collection of High Performance Parallel Skeletons for Tree Search Problems.
 
-**Warning: This library is currently experimental and should be considered very unstable**
+The aim of this project is to add a workstealing policy based on the performance of every node.
 
-Skeletons are designed to be used with
-the [HPX](https://github.com/STEllAR-GROUP/hpx) parallel library/runtime
+The results shows that by using this new policy, the application based on the YewPar sometimes can have more than 13% speedup.
 
-## Installation Instructions
+Then code mainly modify the codes in "YewPar\lib\workstealing" dir, affecting the skeletons using the DepthPool.
 
-### Via Nix
+## Installation guide
 
-The quickest way to get up and running is to use [Nix](https://nixos.org/nix/)
-and the included [default.nix](default.nix) file to build YewPar (including the required
-dependencies). Once you have Nix installed run:
+There are a number of ways to install this, 
+one way is to install it manually, 
+which requires you to install cmake,boost_1_79_0,gperftools-2.7,libopenmpi-dev,libasio-dev in a linux environment.
+
+Then download hpx-1.8 or hpx-1.8.1 source code and compile and install hpx through cmake, 
+command is as follows (The contents of the "\{\}" need to be replaced,these are guidelines only and you can change them as needed):
 
 ```bash
-nix-build
+cd {path to hpx source code dir} ;
+cd build ;
+{path to cmake dir}/cmake -DCMAKE_BUILD_TYPE={Release or RelWithDebInfo} \
+       -DCMAKE_INSTALL_PREFIX={path to hpx source code dir}/build/install \
+       -DHPX_WITH_PARCELPORT_MPI=ON \
+       -DHPX_WITH_EXAMPLES=OFF \
+       -DHPX_WITH_TESTS=OFF  \
+       -DHPX_WITH_DISABLED_SIGNAL_EXCEPTION_HANDLERS=TRUE \
+       -DBOOST_ROOT={path to boost}/boost_1_79_0/ \
+       -DBOOST_LIBRARYDIR={path to boost}/boost_1_79_0/lib \
+       -DTCMALLOC_LIBRARY{path to gperftools}/gperftools-2.7/lib/ \
+       -DTCMALLOC_INCLUDE_DIR={path to gperftools}/gperftools-2.7/include \
+        ../
+	  make -j{cpu cores you have} ; \
+	  make install
 ```
 
-To build YewPar and it's test applications into `./result/`. 
-Note: The first time you run this command Nix needs to build HPX which may take some time.
-
-When executing the test applications first start a `nix-shell` to ensure the correct runtime libraries are loaded.
-
-### Via CMake
-
-YewPar and it's test applications can also be built using
-[CMake](https://cmake.org/). For example:
+then install YewPar's apps:
 
 ```bash
-git clone git@github.com:BlairArchibald/YewPar.git
-cd YewPar
-mkdir build
-cd build
+cd {path to YewPar dir} ;
+mkdir -p build ;
+cd build ;
 
-cmake \
- -DHPX_DIR=<pathToHPX>/hpx/hpx_build/lib/cmake/HPX/ \
- -DCMAKE_BUILD_TYPE=Release \
- -DCMAKE_INSTALL_PREFIX=$(pwd)/install \
- ../
- 
-make && make install
+{path to cmake dir}/cmake -DCMAKE_BUILD_TYPE=Release \
+    -DCMAKE_INSTALL_PREFIX={path to YewPar dir}/build/install \
+    -DHPX_DIR={path to hpx source code dir}/build/install/lib/cmake/HPX \
+    -DBoost_INCLUDE_DIR={path to hpx installed dir}/include \
+    -DCMAKE_INSTALL_RPATH_USE_LINK_PATH=On \
+    -DYEWPAR_BUILD_BNB_APPS_MAXCLIQUE_NWORDS=16 \
+    -DYEWPAR_BUILD_BNB_APPS_KNAPSACK_NITEMS=220 \
+    -DYEWPAR_BUILD_APPS_SIP_NWORDS=128 \
+
+make -j{cpu cores you have} ;
+make install ;
+```
+Then you should be able to see apps of YewPar in the "{path to YewPar dir}/build/install/bin"
+
+## example commands of apps
+
+example commands of NS-hivert app:
+
+run in one server node:
+
+```bash
+{path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you have}
 ```
 
-Be sure to add `build/install/lib` and the hpx runtime libraries to your linker path.
-
-## Available Skeletons
-
-YewPar currently supports three types of search:
-
-1. ~~Divide and Conquer~~ (currently unmaintained)
-2. Tree Enumeration - Count the number of nodes in a tree
-3. Decision Branch and Bound - Does a solution with bound *X* exist?
-4. Optimisation Branch and Bound - Find a solution maximising an objective function
-
-There are many skeletons available. An incomplete list is:
-
-1. Sequential (Stack or Recursive) - No parallelism constructs added.
-2. Parallel   - Using the hpx::async mechanism (similar to how we might use something like Cilk)
-3. Dist       - Multi-locality support leveraging distributed workqueues
-4. Indexed    - Track the path's through the tree and use this to *recompute* initial nodes rather than sending them
-5. GenNode    - Steal directly from the stacks of other threads
-
-Special Skeletons:
-
-1. Ordered Skeleton for Branch and Bound Search - From [Replicable Parallel
-   Branch and Bound
-   Search](http://www.sciencedirect.com/science/article/pii/S0743731517302861)
-   with a slightly different discrepancy order (count discrepancies, no
-   accounting for the depth they occur at)
-
-## Sample Applications
-
-YewPar currently comes with a couple of example applications that are built
-during the install. By default these binaries are placed in `${CMAKE_INSTALL_PREFIX}/bin` and require `${CMAKE_ISNTALL_PREFIX}/lib` to be on the linker path. Current applications are:
-
-- ~~Divide and Conquer~~
-  - ~~Fibonnaci~~
-
-- Enumeration (Counting)
-  - [Unbalanced Tree Search](https://sourceforge.net/p/uts-benchmark/wiki/Home/)
-  - [Numerical Semigroups](https://arxiv.org/abs/1305.3831)
-  - Fibonacci (for test purposes only)
-  
-- Decision:
-  - k-clique (part of the maxcliuqe application)
-
-- Branch and Bound
-  - Maximum Clique
-  - 0/1 Knapsack
-  - Maximum Common Subgraph (via Clique encoding i.e very like Maximum Clique)
-
-For a description of how to run the application you can pass the `-h` flag to the binary. A sample command line looks like follows:
+run in cluster:
 
 ```bash
-mpiexec -n 2 ./install/bin/maxclique-8 --input-file brock200_1.clq --skeleton-type dist --spawn-depth 2 --hpx:threads 8
+mpiexec.openmpi -n {number of nodes you have} --host {nodes' names, use comma apart} {path to the app}/NS-hivert --skeleton budget -b 1000000 -g 39 --hpx:threads {cores you have per node}
 ```
